@@ -19,6 +19,11 @@ export default function Dashboard() {
     <>
       <h2>Áttekintés</h2>
       <div className="stats">
+        <Link to="/inquiries" className="card stat">
+          <div className="muted small">Új érdeklődés a weboldalról</div>
+          <div className="big">{data.newInquiries}</div>
+          <div className="muted small">Megnyitás</div>
+        </Link>
         <div className="card stat">
           <div className="muted small">Nyitott ajánlatok</div>
           <div className="big">{open?.count ?? 0}</div>

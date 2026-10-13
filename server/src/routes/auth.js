@@ -22,12 +22,12 @@ const loginLimiter = rateLimit({
   message: { error: 'Túl sok bejelentkezési kísérlet, próbáld később' },
 });
 
-const cookieOptions = {
+const cookieOptions = (req) => ({
   httpOnly: true,
-  secure: config.cookieSecure,
+  secure: config.cookieSecure === 'auto' ? req.secure : config.cookieSecure === 'true',
   sameSite: 'strict', // CSRF ellen: más oldalról indított kérés nem viszi a sütit
   path: '/',
-};
+});
 
 // Egy előre kiszámolt hash, hogy nem létező emailnél is ugyanannyi ideig tartson
 // a válasz (időzítéses felhasználó-felderítés ellen).
@@ -72,7 +72,7 @@ router.post(
       expiresIn: config.jwtExpiresIn,
       algorithm: 'HS256',
     });
-    res.cookie('token', token, { ...cookieOptions, maxAge: 8 * 60 * 60 * 1000 });
+    res.cookie('token', token, { ...cookieOptions(req), maxAge: 8 * 60 * 60 * 1000 });
     req.user = { id: user.id };
     await audit(req, 'login', 'user', user.id);
     res.json({ id: user.id, email: user.email, full_name: user.full_name, role: user.role });
@@ -80,7 +80,7 @@ router.post(
 );
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('token', cookieOptions);
+  res.clearCookie('token', cookieOptions(req));
   res.status(204).end();
 });
 

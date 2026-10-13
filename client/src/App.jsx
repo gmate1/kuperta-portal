@@ -6,6 +6,7 @@ import Clients from './pages/Clients.jsx';
 import Quotes from './pages/Quotes.jsx';
 import QuoteEditor from './pages/QuoteEditor.jsx';
 import Expenses from './pages/Expenses.jsx';
+import Inquiries from './pages/Inquiries.jsx';
 
 export default function App() {
   const { user, loading, logout } = useAuth();
@@ -16,9 +17,10 @@ export default function App() {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div className="brand">FinPortál</div>
+        <div className="brand">Kuperta<span>portál</span></div>
         <nav>
           <NavLink to="/" end>Áttekintés</NavLink>
+          <NavLink to="/inquiries">Érdeklődések</NavLink>
           <NavLink to="/quotes">Árajánlatok</NavLink>
           <NavLink to="/clients">Ügyfelek</NavLink>
           <NavLink to="/expenses">Költségek</NavLink>
@@ -37,6 +39,7 @@ export default function App() {
           <Route path="/quotes/new" element={<QuoteEditor />} />
           <Route path="/quotes/:id" element={<QuoteEditor />} />
           <Route path="/expenses" element={<Expenses />} />
+          <Route path="/inquiries" element={<Inquiries />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>

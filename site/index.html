@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kuperta – pénzügyi tanácsadás kis- és középvállalkozásoknak</title>
+  <meta name="description" content="Cash-flow tervezés, adótanácsadás, üzleti terv, pályázati pénzügyi terv és hitelkérelem-előkészítés kis- és középvállalkozásoknak.">
+  <link rel="preload" href="/fonts/schibsted-grotesk-latin-ext-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="/" class="wordmark" aria-label="Kuperta – főoldal">Kuperta</a>
+      <nav aria-label="Fő navigáció">
+        <a href="#szolgaltatasok">Szolgáltatások</a>
+        <a href="#folyamat">Hogyan dolgozunk</a>
+        <a href="#kapcsolat" class="nav-cta">Időpontot kérek</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="tartalom">
+    <section class="hero wrap">
+      <div class="hero-text">
+        <h1>Előre látni, mikor fogy el a pénz.</h1>
+        <p class="lede">
+          Kis- és középvállalkozásoknak segítünk a cash-flow tervezésben, az adózásban,
+          a pályázatokban és a banki finanszírozásban. Hogy a hónap végi egyenleg
+          ne meglepetés legyen.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#kapcsolat">Időpontot kérek</a>
+          <a class="btn btn-quiet" href="#szolgaltatasok">Szolgáltatások és árak</a>
+        </div>
+      </div>
+
+      <figure class="ledger" aria-labelledby="chart-caption">
+        <svg id="cashflow" viewBox="0 0 640 400" role="img"
+             aria-label="Szemléltető cash-flow görbe: terv nélkül februárban 1,3 millió forint hiány, tervvel végig pozitív egyenleg.">
+        </svg>
+        <figcaption id="chart-caption">
+          Szemléltető példa. Nő a forgalom, a vevők 60 napra fizetnek, a szállítók 15 napra kérik
+          a pénzt, és februárra elfogy a keret. Tervvel ez már novemberben látszik.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="audience wrap" aria-labelledby="kinek">
+      <h2 id="kinek">Kinek dolgozunk</h2>
+      <dl class="audience-list">
+        <div>
+          <dt>Növekvő cégeknek</dt>
+          <dd>Ahol a forgalommal együtt nő a kintlévőség, és a nyereséges hónapok végén is szűkös a bankszámla.</dd>
+        </div>
+        <div>
+          <dt>Induló vállalkozásoknak</dt>
+          <dd>Akiknek a bank vagy a befektető üzleti tervet és számokkal alátámasztott előrejelzést kér.</dd>
+        </div>
+        <div>
+          <dt>Pályázóknak</dt>
+          <dd>Akik a szakmai részt meg tudják írni, de a pénzügyi mellékletekhez gyakorlott kéz kell.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section id="szolgaltatasok" class="services" aria-labelledby="szolg-cim">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="szolg-cim">Szolgáltatások és árak</h2>
+          <p>Minden munka előtt írásos, tételes árajánlatot küldünk. Az árak nettó árak, ÁFA nélkül.</p>
+        </div>
+        <table class="price-list">
+          <caption class="visually-hidden">Szolgáltatások listája árakkal</caption>
+          <thead>
+            <tr><th scope="col">Szolgáltatás</th><th scope="col">Mit kap</th><th scope="col" class="num">Nettó ár</th></tr>
+          </thead>
+          <tbody id="price-rows">
+            <tr><th scope="row">Pénzügyi tanácsadás</th><td>Egyedi pénzügyi tanácsadás szakértővel</td><td class="num">25 000 Ft / óra</td></tr>
+            <tr><th scope="row">Adótanácsadás</th><td>Adózási kérdések, adóoptimalizálás</td><td class="num">30 000 Ft / óra</td></tr>
+            <tr><th scope="row">Havi pénzügyi controlling</th><td>Havi riport, likviditásfigyelés</td><td class="num">120 000 Ft / hó</td></tr>
+            <tr><th scope="row">Hitelkérelem előkészítése</th><td>Banki dokumentáció összeállítása</td><td class="num">150 000 Ft / alkalom</td></tr>
+            <tr><th scope="row">Pályázati pénzügyi terv</th><td>Pályázat pénzügyi mellékleteinek elkészítése</td><td class="num">180 000 Ft / alkalom</td></tr>
+            <tr><th scope="row">Üzleti terv készítése</th><td>Pénzügyi előrejelzéssel, cash-flow tervvel</td><td class="num">350 000 Ft / alkalom</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="folyamat" class="process wrap" aria-labelledby="folyamat-cim">
+      <h2 id="folyamat-cim">Hogyan dolgozunk</h2>
+      <ol class="steps">
+        <li>
+          <h3>Első beszélgetés</h3>
+          <p>Fél óra telefonon vagy online, díjmentesen. Elmondja, mi a gond, mi elmondjuk, tudunk-e segíteni.</p>
+        </li>
+        <li>
+          <h3>Átvilágítás</h3>
+          <p>Megnézzük a számokat: bankszámla, vevők, szállítók, adófizetési naptár, hitelek.</p>
+        </li>
+        <li>
+          <h3>Írásos árajánlat</h3>
+          <p>Tételesen leírjuk, mit csinálunk és mennyiért. Addig nem kezdünk, amíg el nem fogadja.</p>
+        </li>
+        <li>
+          <h3>Közös munka</h3>
+          <p>Egyszeri projekt vagy havi riport, ahogy Önnek jobb. Minden hónapban látja, hol tart a cég.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="kapcsolat" class="contact" aria-labelledby="kapcsolat-cim">
+      <div class="wrap contact-grid">
+        <div class="contact-intro">
+          <h2 id="kapcsolat-cim">Kérjen időpontot</h2>
+          <p>Írja le röviden, miben segíthetünk. Egy munkanapon belül válaszolunk, és egyeztetünk egy időpontot az első beszélgetésre.</p>
+          <p class="contact-direct">Emailben is elér minket:<br><a href="mailto:info@kuperta.hu">info@kuperta.hu</a></p>
+        </div>
+
+        <form id="inquiry-form" class="form" novalidate>
+          <div class="field">
+            <label for="f-name">Név</label>
+            <input id="f-name" name="name" autocomplete="name" required minlength="2" maxlength="200">
+          </div>
+          <div class="field">
+            <label for="f-company">Cégnév <span class="opt">(ha van)</span></label>
+            <input id="f-company" name="company" autocomplete="organization" maxlength="200">
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="255">
+          </div>
+          <div class="field">
+            <label for="f-phone">Telefon <span class="opt">(nem kötelező)</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="50">
+          </div>
+          <div class="field field-wide">
+            <label for="f-topic">Miben segíthetünk?</label>
+            <select id="f-topic" name="topic" required>
+              <option value="cashflow">Cash-flow és likviditás</option>
+              <option value="tax">Adózás</option>
+              <option value="business_plan">Üzleti terv</option>
+              <option value="grant">Pályázat</option>
+              <option value="loan">Hitel, finanszírozás</option>
+              <option value="other">Egyéb</option>
+            </select>
+          </div>
+          <div class="field field-wide">
+            <label for="f-message">Üzenet</label>
+            <textarea id="f-message" name="message" rows="5" required minlength="10" maxlength="3000"
+              placeholder="Például: nő a forgalom, de a hónap végén mindig szűkösen állunk."></textarea>
+          </div>
+          <!-- Honeypot: embereknek rejtett mező, botok kitöltik -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Weboldal</label>
+            <input id="f-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="field field-wide check">
+            <input id="f-consent" name="consent" type="checkbox" required>
+            <label for="f-consent">Elolvastam az <a href="/adatvedelem.html">adatkezelési tájékoztatót</a>, és hozzájárulok, hogy az adataimat a megkeresésem megválaszolásához kezeljék.</label>
+          </div>
+          <p class="form-status field-wide" id="form-status" role="status" aria-live="polite"></p>
+          <div class="field-wide">
+            <button class="btn btn-primary" type="submit">Üzenet küldése</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span class="wordmark small">Kuperta</span>
+      <a href="/adatvedelem.html">Adatkezelési tájékoztató</a>
+      <a href="https://portal.kuperta.hu" id="portal-link">Belépés munkatársaknak</a>
+      <span class="note">Szakmai gyakorlati projekt bemutató környezete.</span>
+    </div>
+  </footer>
+</body>
+</html>

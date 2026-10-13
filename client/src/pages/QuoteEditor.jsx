@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { api, formatHuf, STATUS_LABELS } from '../api.js';
 import ErrorBox from '../components/ErrorBox.jsx';
 
@@ -24,6 +24,7 @@ const NEXT_ACTIONS = {
 export default function QuoteEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [search] = useSearchParams();
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
   const [quote, setQuote] = useState(null);
@@ -33,7 +34,7 @@ export default function QuoteEditor() {
     api.get('/clients').then(setClients);
     api.get('/services').then(setServices);
     if (id) api.get(`/quotes/${id}`).then(setQuote);
-    else setQuote({ status: 'draft', client_id: '', issue_date: today(), valid_until: plusDays(30), notes: '', items: [] });
+    else setQuote({ status: 'draft', client_id: search.get('client') || '', issue_date: today(), valid_until: plusDays(30), notes: '', items: [] });
   }, [id]);
 
   const totals = useMemo(() => {

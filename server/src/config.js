@@ -17,7 +17,9 @@ export const config = {
   // 32 bájtos kulcs hex formában (64 karakter): openssl rand -hex 32
   encryptionKey: required('DATA_ENCRYPTION_KEY'),
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  cookieSecure: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : isProd,
+  // 'auto': Secure süti, ha a kérés HTTPS-en jött (X-Forwarded-Proto), egyébként nem.
+  // Így a tunnelen (HTTPS) és helyben (http://portal.localhost) is működik.
+  cookieSecure: process.env.COOKIE_SECURE || 'auto',
 };
 
 if (config.jwtSecret.length < 32) {

@@ -25,8 +25,8 @@ export default function Login() {
   return (
     <div className="login-wrap">
       <form className="card login" onSubmit={submit}>
-        <h1>FinPortál</h1>
-        <p className="muted">Belső ügyviteli rendszer</p>
+        <h1>Kuperta<span>portál</span></h1>
+        <p className="muted">Belső ügyviteli rendszer munkatársaknak</p>
         <label>
           Email
           <input type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required />

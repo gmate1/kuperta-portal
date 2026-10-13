@@ -1,5 +1,9 @@
-# Teljes rendszer egy paranccsal: docker compose up -d --build
-# A HTTPS-t éles környezetben egy elé tett reverse proxy (pl. Caddy) adja, lásd README.
+# Indítás:            docker compose up -d --build
+# Tunnellel együtt:   docker compose --profile tunnel up -d --build
+#
+# Helyben:  http://localhost:8080         → weboldal
+#           http://portal.localhost:8080  → portál
+# Tunnellel: https://kuperta.hu és https://portal.kuperta.hu (lásd TUNNEL.md)
 services:
   db:
     image: postgres:16-alpine
@@ -27,17 +31,31 @@ services:
       DATABASE_URL: postgres://finportal:${POSTGRES_PASSWORD}@db:5432/finportal
       JWT_SECRET: ${JWT_SECRET:?Állítsd be a .env-ben}
       DATA_ENCRYPTION_KEY: ${DATA_ENCRYPTION_KEY:?Állítsd be a .env-ben}
-      CORS_ORIGIN: ${PUBLIC_URL:-http://localhost:8080}
-      COOKIE_SECURE: ${COOKIE_SECURE:-true}
-      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@example.com}
+      CORS_ORIGIN: ${PORTAL_URL:-https://portal.kuperta.hu}
+      COOKIE_SECURE: auto
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@kuperta.hu}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
 
   web:
-    build: ./client
+    build:
+      context: .
+      dockerfile: web/Dockerfile
     restart: unless-stopped
     depends_on: [api]
     ports:
-      - "${WEB_PORT:-8080}:80"
+      # Csak a saját gépről érhető el; kívülről kizárólag a tunnelen át
+      - "127.0.0.1:8080:80"
+
+  # Cloudflare Tunnel: kimenő kapcsolatot nyit a Cloudflare felé,
+  # így nem kell portot nyitni a routeren. Csak a --profile tunnel indítja.
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    profiles: [tunnel]
+    depends_on: [web]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
 
 volumes:
   pgdata:

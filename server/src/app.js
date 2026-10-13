@@ -12,6 +12,7 @@ import serviceRoutes from './routes/services.js';
 import quoteRoutes from './routes/quotes.js';
 import expenseRoutes from './routes/expenses.js';
 import dashboardRoutes from './routes/dashboard.js';
+import inquiryRoutes, { publicRouter } from './routes/inquiries.js';
 
 export function createApp() {
   const app = express();
@@ -37,6 +38,9 @@ export function createApp() {
     }
   });
 
+  // Nyilvános (weboldal) végpontok – csak ezek érhetők el a kuperta.hu felől
+  app.use('/api/public', publicRouter);
+
   app.use('/api/auth', authRoutes);
   // Minden más végpont bejelentkezéshez kötött
   app.use('/api/clients', requireAuth, clientRoutes);
@@ -44,6 +48,7 @@ export function createApp() {
   app.use('/api/quotes', requireAuth, quoteRoutes);
   app.use('/api/expenses', requireAuth, expenseRoutes);
   app.use('/api/dashboard', requireAuth, dashboardRoutes);
+  app.use('/api/inquiries', requireAuth, inquiryRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

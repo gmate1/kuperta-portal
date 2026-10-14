@@ -193,7 +193,10 @@ a:hover { color: var(--ink); }
 /* Lábléc */
 .site-footer { padding-block: 32px; }
 .footer-row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; font-size: 15px; }
-.footer-row .note { margin-left: auto; color: var(--ink-soft); font-size: 14px; }
+
+.company-info { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-soft); }
+.company-info span:first-child { color: var(--ink); font-weight: 500; }
 
 /* Adatkezelési oldal */
 .legal { padding-block: 56px 96px; max-width: 760px; }
@@ -201,7 +204,6 @@ a:hover { color: var(--ink); }
 .legal h2 { font-size: 22px; margin: 36px 0 10px; letter-spacing: -0.01em; }
 .legal p, .legal li { color: var(--ink-soft); max-width: 68ch; }
 .legal p + p { margin-top: 12px; }
-.legal .todo { background: #fdf0d8; color: #6b4300; padding: 1px 5px; border-radius: 3px; }
 
 /* Mobil */
 @media (max-width: 900px) {
@@ -225,7 +227,6 @@ a:hover { color: var(--ink); }
   .steps li, .steps li + li { padding: 20px 0 0; border-left: 0; }
   .steps li + li { border-top: 1px solid var(--rule); }
   .form { grid-template-columns: 1fr; }
-  .footer-row .note { margin-left: 0; width: 100%; }
 }
 
 /* Főoldal alja: átvezetés a Kapcsolat oldalra */

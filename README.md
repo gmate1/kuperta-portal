@@ -151,13 +151,14 @@ Csak `draft` állapotban szerkeszthető / törölhető. Az összegeket mindig a 
   (`logo.png` szlogennel, `logo-head.png` fejléchez, `-light` változat sötét háttérre).
 - A **Kapcsolat** oldal (`site/kapcsolat.html`) az email címet, telefont és címet a `.env`
   `COMPANY_EMAIL`, `COMPANY_PHONE`, `COMPANY_ADDRESS` változóiból mutatja – kódot nem kell módosítani.
-  Üresen hagyva az oldal azt írja, hogy az email cím hamarosan elérhető, és az űrlapra irányít.
+  Üresen hagyva a cég adatai jelennek meg (kuperta.kft@gmail.com, 2230 Gyömrő, Kossuth Ferenc utca 34/A); a cégadatok a láblécben
+  és az adatkezelési tájékoztatóban statikusan szerepelnek.
   Módosítás után: `docker compose up -d api`.
 
 ## Adatvédelem
 
 A weboldal űrlapja hozzájáruláshoz kötött, az adatkezelési tájékoztató a `site/adatvedelem.html`-ben
-van; a sárgával jelölt cégadatokat élesítés előtt ki kell tölteni.
+van, a Kuperta Kft. adataival kitöltve.
 
 ## Következő lépések
 

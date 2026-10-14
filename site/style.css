@@ -133,7 +133,7 @@ html { scroll-padding-top: 88px; }
 
 /* Kinek */
 .audience { padding-block: clamp(56px, 7vw, 96px); border-top: 1px solid var(--rule);
-  display: grid; grid-template-columns: 4fr 8fr; gap: 40px; }
+  display: grid; grid-template-columns: 4fr 8fr; gap: 40px; align-items: center; }
 .audience-list { margin: 0; display: grid; gap: 28px; }
 .audience-list div { display: grid; grid-template-columns: 250px 1fr; gap: 24px; }
 .audience-list dt { font-weight: 700; font-size: 20px; letter-spacing: -0.01em; }
@@ -219,7 +219,6 @@ html { scroll-padding-top: 88px; }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
-  .site-header nav a:not(.nav-cta) { display: none; }
   .audience-list div { grid-template-columns: 1fr; gap: 6px; }
   .price-list thead { display: none; }
   .price-list tr { display: grid; grid-template-columns: 1fr auto; column-gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
@@ -338,4 +337,36 @@ input[type=range]:focus-visible::-moz-range-thumb { outline: 3px solid var(--blu
   .promises { grid-template-columns: 1fr; gap: 16px; }
   .price-list td.ask { grid-column: 1 / -1; grid-row: 3; text-align: left; padding: 8px 0 0; }
   .calc-summary { min-height: 0; }
+}
+
+/* Kalkulátor oldal */
+.calc-page { border-top: 0; padding-top: clamp(48px, 7vw, 88px); }
+.calc-page h1 { font-size: clamp(36px, 4.6vw, 56px); letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance; }
+.caption-link { display: inline-block; margin-top: 6px; font-weight: 500; }
+
+/* Mobil menü */
+.menu-toggle { display: none; font: inherit; font-weight: 500; font-size: 16px; color: var(--ink); background: none;
+  border: 1.5px solid var(--rule); border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.menu-toggle::after { content: ''; display: inline-block; width: 8px; height: 8px; margin-left: 10px; margin-bottom: 3px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform .25s ease; }
+.menu-open .menu-toggle::after { transform: rotate(-135deg); margin-bottom: -2px; }
+@media (max-width: 760px) {
+  .menu-toggle { display: inline-flex; align-items: center; }
+  .site-header #main-nav { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--paper); border-bottom: 1px solid var(--rule); box-shadow: 0 16px 32px -20px rgba(20, 47, 76, 0.4);
+    padding: 8px var(--gutter) 20px; visibility: hidden; opacity: 0; transform: translateY(-8px);
+    transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s; }
+  .site-header.menu-open #main-nav { visibility: visible; opacity: 1; transform: none; transition: opacity .2s ease, transform .2s ease; }
+  .site-header #main-nav a { padding: 14px 0; font-size: 18px; border-bottom: 1px solid var(--paper-deep); }
+  .site-header #main-nav .nav-cta { margin-top: 14px; text-align: center; border-bottom: 1.5px solid var(--blue); }
+}
+
+/* Görgetésre beúszó elemek – csak ha a JS bekapcsolta (különben minden látszik) */
+.reveal { opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
+  transition-delay: calc(var(--d, 0) * 90ms); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .site-header #main-nav { transition: none !important; }
 }

@@ -18,10 +18,11 @@
   <header class="site-header">
     <div class="wrap header-row">
       <a href="/" class="logo"><img src="/img/logo-head.png" width="644" height="100" alt="Kuperta – főoldal"></a>
-      <nav aria-label="Fő navigáció">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menü</button>
+      <nav id="main-nav" aria-label="Fő navigáció">
         <a href="/#szolgaltatasok">Szolgáltatások</a>
-        <a href="/#kalkulator">Kalkulátor</a>
         <a href="/#folyamat">Hogyan dolgozunk</a>
+        <a href="/kalkulator.html">Kalkulátor</a>
         <a href="/kapcsolat.html" class="nav-cta">Kapcsolat</a>
       </nav>
     </div>
@@ -50,6 +51,7 @@
           <figcaption id="chart-caption">
             Szemléltető példa. Nő a forgalom, a vevők 60 napra fizetnek, a szállítók 15 napra kérik
             a pénzt, és februárra elfogy a keret. Tervvel ez már novemberben látszik.
+          <a href="/kalkulator.html" class="caption-link">Számolja ki a saját cégére</a>
           </figcaption>
         </figure>
       </div>
@@ -76,72 +78,6 @@
           <dd>Akik a szakmai részt meg tudják írni, de a pénzügyi mellékletekhez gyakorlott kéz kell.</dd>
         </div>
       </dl>
-    </section>
-
-    <section id="kalkulator" class="calc" aria-labelledby="calc-cim">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 id="calc-cim">Számolja ki, mikor fogy el a pénz</h2>
-          <p>Állítsa be a cége számait, és a görbe megmutatja a bankszámla egyenlegét a következő 12 hónapban. A legtöbb meglepetést a vevők fizetési határideje okozza: próbálja ki, mi történik, ha eltolja.</p>
-        </div>
-
-        <div class="calc-grid">
-          <form class="calc-controls" id="calc-form" aria-label="A cég számai">
-            <div class="ctl">
-              <label for="c-start">Mostani egyenleg</label>
-              <output for="c-start" data-unit="mft"></output>
-              <input type="range" id="c-start" name="start" min="0" max="20" step="0.5" value="1.5">
-            </div>
-            <div class="ctl">
-              <label for="c-revenue">Havi árbevétel</label>
-              <output for="c-revenue" data-unit="mfth"></output>
-              <input type="range" id="c-revenue" name="revenue" min="1" max="50" step="0.5" value="8">
-            </div>
-            <div class="ctl">
-              <label for="c-growth">Havi növekedés</label>
-              <output for="c-growth" data-unit="pcth"></output>
-              <input type="range" id="c-growth" name="growth" min="-5" max="20" step="1" value="10">
-            </div>
-            <div class="ctl">
-              <label for="c-var">Anyag- és közvetlen költség <span class="opt">az árbevétel arányában</span></label>
-              <output for="c-var" data-unit="pct"></output>
-              <input type="range" id="c-var" name="variable" min="20" max="95" step="1" value="80">
-            </div>
-            <div class="ctl">
-              <label for="c-fix">Fix havi költség <span class="opt">bér, bérleti díj, rezsi</span></label>
-              <output for="c-fix" data-unit="mfth"></output>
-              <input type="range" id="c-fix" name="fixed" min="0" max="20" step="0.1" value="1.2">
-            </div>
-            <div class="ctl">
-              <label for="c-cust">A vevők ennyi nap alatt fizetnek</label>
-              <output for="c-cust" data-unit="nap"></output>
-              <input type="range" id="c-cust" name="custDays" min="0" max="120" step="5" value="60">
-            </div>
-            <div class="ctl">
-              <label for="c-supp">A szállítóknak ennyi nap alatt fizet</label>
-              <output for="c-supp" data-unit="nap"></output>
-              <input type="range" id="c-supp" name="suppDays" min="0" max="120" step="5" value="15">
-            </div>
-            <button type="reset" class="btn btn-quiet btn-small">Alapértékek</button>
-          </form>
-
-          <div class="calc-result">
-            <div class="calc-summary" aria-live="polite">
-              <p class="calc-verdict" id="calc-verdict"></p>
-              <p class="calc-detail" id="calc-detail"></p>
-              <p class="calc-tip" id="calc-tip"></p>
-            </div>
-            <figure class="ledger ledger-calc">
-              <svg id="calc-chart" viewBox="0 0 640 340" role="img" aria-labelledby="calc-verdict"></svg>
-              <figcaption>
-                Egyszerűsített becslés: a vevők és a szállítók fizetési határidejével eltolt pénzmozgást számolja,
-                a növekedés a következő hónapban indul. Adókat, hiteleket és egyszeri tételeket nem tartalmaz.
-              </figcaption>
-            </figure>
-            <a class="btn btn-primary" href="/kapcsolat.html?tema=cashflow">Átnézzük a valódi számait</a>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section id="szolgaltatasok" class="services" aria-labelledby="szolg-cim">
@@ -229,6 +165,7 @@
   <footer class="site-footer">
     <div class="wrap footer-row">
       <a href="/" class="logo"><img src="/img/logo.png" width="1288" height="238" alt="Kuperta – Az összetett pénzügy!"></a>
+      <a href="/kalkulator.html">Kalkulátor</a>
       <a href="/kapcsolat.html">Kapcsolat</a>
       <a href="/adatvedelem.html">Adatkezelési tájékoztató</a>
       <a href="https://portal.kuperta.hu" id="portal-link">Belépés munkatársaknak</a>

@@ -38,7 +38,7 @@ server/
   tests/           unit tesztek (node:test)
 client/
   src/pages/       Login, Dashboard, Inquiries, Clients, Quotes, QuoteEditor, Expenses
-site/              nyilvános weboldal: főoldal, kapcsolat, adatkezelés (HTML/CSS/JS, keretrendszer nélkül)
+site/              nyilvános weboldal: főoldal, kalkulátor, kapcsolat, adatkezelés (HTML/CSS/JS, keretrendszer nélkül)
 web/               nginx konfiguráció és a web konténer Dockerfile-ja
 TUNNEL.md          futtatás a saját gépről, kuperta.hu-n
 ```
@@ -146,12 +146,14 @@ Csak `draft` állapotban szerkeszthető / törölhető. Az összegeket mindig a 
 
 ## A weboldal funkciói
 
-- **Likviditás-kalkulátor** (`#kalkulator`): csúszkákkal megadott számokból 12 hónapos egyenleg-szimuláció
+- **Likviditás-kalkulátor** (külön oldal: `site/kalkulator.html`): csúszkákkal megadott számokból 12 hónapos egyenleg-szimuláció
   (a vevők és szállítók fizetési határidejével eltolt pénzmozgás), animált görbével, szöveges
   eredménnyel és „mi lenne, ha a vevők 30 nappal hamarabb fizetnének” összehasonlítással.
 - **Árlista** a portál szolgáltatás-katalógusából, soronként „Ajánlatot kérek” linkkel – a Kapcsolat
   űrlap a témát előre kiválasztja (`?tema=`).
-- **GYIK** lenyíló kérdésekkel, ragadós fejléc, a hero grafikonjának egyszeri kirajzolódása.
+- **GYIK** lenyíló kérdésekkel, ragadós fejléc, mobil lenyíló menü, a hero grafikonjának egyszeri kirajzolódása.
+- **Görgetésre beúszó elemek** (IntersectionObserver): szekciónként egymás után, kis késleltetéssel; ami
+  betöltéskor már látszik, azt nem rejti el.
 - Minden animáció kikapcsol, ha a látogató rendszerében a „kevesebb mozgás” be van állítva.
 
 ## Arculat és elérhetőségek

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Likviditás-kalkulátor – Kuperta</title>
+  <meta name="description" content="Számolja ki, mikor fogy el a pénz: interaktív cash-flow kalkulátor kis- és középvállalkozásoknak.">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/mark-192.png">
+  <meta name="theme-color" content="#142f4c">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="/" class="logo"><img src="/img/logo-head.png" width="644" height="100" alt="Kuperta – főoldal"></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menü</button>
+      <nav id="main-nav" aria-label="Fő navigáció">
+        <a href="/#szolgaltatasok">Szolgáltatások</a>
+        <a href="/#folyamat">Hogyan dolgozunk</a>
+        <a href="/kalkulator.html" aria-current="page">Kalkulátor</a>
+        <a href="/kapcsolat.html" class="nav-cta">Kapcsolat</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="tartalom">
+    <section id="kalkulator" class="calc calc-page" aria-labelledby="calc-cim">
+      <div class="wrap">
+        <div class="section-head">
+          <h1 id="calc-cim">Számolja ki, mikor fogy el a pénz</h1>
+          <p>Állítsa be a cége számait, és a görbe megmutatja a bankszámla egyenlegét a következő 12 hónapban. A legtöbb meglepetést a vevők fizetési határideje okozza: próbálja ki, mi történik, ha eltolja.</p>
+        </div>
+
+        <div class="calc-grid">
+          <form class="calc-controls" id="calc-form" aria-label="A cég számai">
+            <div class="ctl">
+              <label for="c-start">Mostani egyenleg</label>
+              <output for="c-start" data-unit="mft"></output>
+              <input type="range" id="c-start" name="start" min="0" max="20" step="0.5" value="1.5">
+            </div>
+            <div class="ctl">
+              <label for="c-revenue">Havi árbevétel</label>
+              <output for="c-revenue" data-unit="mfth"></output>
+              <input type="range" id="c-revenue" name="revenue" min="1" max="50" step="0.5" value="8">
+            </div>
+            <div class="ctl">
+              <label for="c-growth">Havi növekedés</label>
+              <output for="c-growth" data-unit="pcth"></output>
+              <input type="range" id="c-growth" name="growth" min="-5" max="20" step="1" value="10">
+            </div>
+            <div class="ctl">
+              <label for="c-var">Anyag- és közvetlen költség <span class="opt">az árbevétel arányában</span></label>
+              <output for="c-var" data-unit="pct"></output>
+              <input type="range" id="c-var" name="variable" min="20" max="95" step="1" value="80">
+            </div>
+            <div class="ctl">
+              <label for="c-fix">Fix havi költség <span class="opt">bér, bérleti díj, rezsi</span></label>
+              <output for="c-fix" data-unit="mfth"></output>
+              <input type="range" id="c-fix" name="fixed" min="0" max="20" step="0.1" value="1.2">
+            </div>
+            <div class="ctl">
+              <label for="c-cust">A vevők ennyi nap alatt fizetnek</label>
+              <output for="c-cust" data-unit="nap"></output>
+              <input type="range" id="c-cust" name="custDays" min="0" max="120" step="5" value="60">
+            </div>
+            <div class="ctl">
+              <label for="c-supp">A szállítóknak ennyi nap alatt fizet</label>
+              <output for="c-supp" data-unit="nap"></output>
+              <input type="range" id="c-supp" name="suppDays" min="0" max="120" step="5" value="15">
+            </div>
+            <button type="reset" class="btn btn-quiet btn-small">Alapértékek</button>
+          </form>
+
+          <div class="calc-result">
+            <div class="calc-summary" aria-live="polite">
+              <p class="calc-verdict" id="calc-verdict"></p>
+              <p class="calc-detail" id="calc-detail"></p>
+              <p class="calc-tip" id="calc-tip"></p>
+            </div>
+            <figure class="ledger ledger-calc">
+              <svg id="calc-chart" viewBox="0 0 640 340" role="img" aria-labelledby="calc-verdict"></svg>
+              <figcaption>
+                Egyszerűsített becslés: a vevők és a szállítók fizetési határidejével eltolt pénzmozgást számolja,
+                a növekedés a következő hónapban indul. Adókat, hiteleket és egyszeri tételeket nem tartalmaz.
+              </figcaption>
+            </figure>
+            <a class="btn btn-primary" href="/kapcsolat.html?tema=cashflow">Átnézzük a valódi számait</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band" aria-labelledby="cta-cim">
+      <div class="wrap cta-row">
+        <div>
+          <h2 id="cta-cim">A valóság ennél bonyolultabb</h2>
+          <p>Adók, hitelek, szezonális bevétel, egyszeri kiadások: a pontos előrejelzéshez a cége valódi számai kellenek. Az első beszélgetés díjmentes.</p>
+        </div>
+        <a class="btn btn-primary" href="/kapcsolat.html?tema=cashflow">Időpontot kérek</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <a href="/" class="logo"><img src="/img/logo.png" width="1288" height="238" alt="Kuperta – Az összetett pénzügy!"></a>
+      <a href="/kalkulator.html">Kalkulátor</a>
+      <a href="/kapcsolat.html">Kapcsolat</a>
+      <a href="/adatvedelem.html">Adatkezelési tájékoztató</a>
+      <a href="https://portal.kuperta.hu" id="portal-link">Belépés munkatársaknak</a>
+    </div>
+    <p class="wrap company-info">
+      <span>Kuperta Kft.</span>
+      <span>Székhely: 2230 Gyömrő, Kossuth Ferenc utca 34/A</span>
+      <span>Cégjegyzékszám: 13-09-118489</span>
+      <span>Adószám: 14231603-2-13</span>
+    </p>
+  </footer>
+</body>
+</html>

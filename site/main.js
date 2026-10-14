@@ -437,7 +437,60 @@ function fixPortalLink(a) {
   }
 }
 
+// ─── Mobil menü ────────────────────────────────────────────────────────────
+function setupMenu(header) {
+  const btn = header.querySelector('.menu-toggle');
+  if (!btn) return;
+  const set = (open) => {
+    header.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  };
+  btn.addEventListener('click', () => set(!header.classList.contains('menu-open')));
+  header.querySelectorAll('#main-nav a').forEach((a) => a.addEventListener('click', () => set(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('menu-open')) { set(false); btn.focus(); }
+  });
+}
+
+// ─── Görgetésre beúszó elemek ──────────────────────────────────────────────
+// Csoportonként egymás után (kis késleltetéssel) úsznak be. Ami betöltéskor már
+// látszik, azt nem rejtjük el, így nincs villanás.
+const REVEAL_GROUPS = [
+  '.audience > h2, .audience-list > div',
+  '.section-head > *',
+  '.price-list tbody tr',
+  '.process > h2, .steps > li',
+  '.faq > h2, .faq-list > details',
+  '.cta-row > *',
+  '.calc-controls > .ctl, .calc-controls > button',
+  '.calc-result > *',
+];
+function setupReveal() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+  for (const sel of REVEAL_GROUPS) {
+    const order = new Map(); // szekciónként újrakezdődő sorszám a késleltetéshez
+    document.querySelectorAll(sel).forEach((node) => {
+      const section = node.closest('section') || document.body;
+      const i = order.get(section) ?? 0;
+      order.set(section, i + 1);
+      if (node.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+      node.style.setProperty('--d', String(Math.min(i, 7)));
+      node.classList.add('reveal');
+      io.observe(node);
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  setupReveal();
   const svg = document.getElementById('cashflow');
   if (svg) drawCashflow(svg);
   const rows = document.getElementById('price-rows');
@@ -454,6 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fejléc árnyéka görgetéskor
   const header = document.querySelector('.site-header');
   if (header) {
+    setupMenu(header);
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();

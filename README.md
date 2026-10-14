@@ -144,6 +144,16 @@ Csak `draft` állapotban szerkeszthető / törölhető. Az összegeket mindig a 
 | DoS | Payload méretkorlát (200 kB), rate limit |
 | Konténer kitörés | API nem root felhasználóként fut; DB nincs kiengedve |
 
+## A weboldal funkciói
+
+- **Likviditás-kalkulátor** (`#kalkulator`): csúszkákkal megadott számokból 12 hónapos egyenleg-szimuláció
+  (a vevők és szállítók fizetési határidejével eltolt pénzmozgás), animált görbével, szöveges
+  eredménnyel és „mi lenne, ha a vevők 30 nappal hamarabb fizetnének” összehasonlítással.
+- **Árlista** a portál szolgáltatás-katalógusából, soronként „Ajánlatot kérek” linkkel – a Kapcsolat
+  űrlap a témát előre kiválasztja (`?tema=`).
+- **GYIK** lenyíló kérdésekkel, ragadós fejléc, a hero grafikonjának egyszeri kirajzolódása.
+- Minden animáció kikapcsol, ha a látogató rendszerében a „kevesebb mozgás” be van állítva.
+
 ## Arculat és elérhetőségek
 
 - A színek a cég logójából jönnek: világoskék `#6B9CD6`, sötétkék `#3173AD`, a feliratok feketéje, a sötét

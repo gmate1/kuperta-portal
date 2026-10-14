@@ -20,6 +20,7 @@
       <a href="/" class="logo"><img src="/img/logo-head.png" width="644" height="100" alt="Kuperta – főoldal"></a>
       <nav aria-label="Fő navigáció">
         <a href="/#szolgaltatasok">Szolgáltatások</a>
+        <a href="/#kalkulator">Kalkulátor</a>
         <a href="/#folyamat">Hogyan dolgozunk</a>
         <a href="/kapcsolat.html" class="nav-cta">Kapcsolat</a>
       </nav>
@@ -27,29 +28,36 @@
   </header>
 
   <main id="tartalom">
-    <section class="hero wrap">
-      <div class="hero-text">
-        <h1>Előre látni, mikor fogy el a pénz.</h1>
-        <p class="lede">
-          Kis- és középvállalkozásoknak segítünk a cash-flow tervezésben, az adózásban,
-          a pályázatokban és a banki finanszírozásban. Hogy a hónap végi egyenleg
-          ne meglepetés legyen.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/kapcsolat.html">Időpontot kérek</a>
-          <a class="btn btn-quiet" href="#szolgaltatasok">Szolgáltatások és árak</a>
+    <section class="hero-band">
+      <div class="hero wrap">
+        <div class="hero-text">
+          <h1>Előre látni, mikor fogy el a pénz.</h1>
+          <p class="lede">
+            Kis- és középvállalkozásoknak segítünk a cash-flow tervezésben, az adózásban,
+            a pályázatokban és a banki finanszírozásban. Hogy a hónap végi egyenleg
+            ne meglepetés legyen.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/kapcsolat.html">Időpontot kérek</a>
+            <a class="btn btn-quiet" href="#szolgaltatasok">Szolgáltatások és árak</a>
+          </div>
         </div>
-      </div>
 
-      <figure class="ledger" aria-labelledby="chart-caption">
-        <svg id="cashflow" viewBox="0 0 640 400" role="img"
-             aria-label="Szemléltető cash-flow görbe: terv nélkül februárban 1,3 millió forint hiány, tervvel végig pozitív egyenleg.">
-        </svg>
-        <figcaption id="chart-caption">
-          Szemléltető példa. Nő a forgalom, a vevők 60 napra fizetnek, a szállítók 15 napra kérik
-          a pénzt, és februárra elfogy a keret. Tervvel ez már novemberben látszik.
-        </figcaption>
-      </figure>
+        <figure class="ledger" aria-labelledby="chart-caption">
+          <svg id="cashflow" viewBox="0 0 640 400" role="img"
+               aria-label="Szemléltető cash-flow görbe: terv nélkül februárban 1,3 millió forint hiány, tervvel végig pozitív egyenleg.">
+          </svg>
+          <figcaption id="chart-caption">
+            Szemléltető példa. Nő a forgalom, a vevők 60 napra fizetnek, a szállítók 15 napra kérik
+            a pénzt, és februárra elfogy a keret. Tervvel ez már novemberben látszik.
+          </figcaption>
+        </figure>
+      </div>
+      <ul class="promises wrap" aria-label="Amit vállalunk">
+        <li><strong>Díjmentes első beszélgetés</strong><span>Fél óra telefonon vagy online</span></li>
+        <li><strong>Tételes, írásos árajánlat</strong><span>Addig nem kezdünk, amíg el nem fogadja</span></li>
+        <li><strong>Válasz egy munkanapon belül</strong><span>Minden megkeresésre</span></li>
+      </ul>
     </section>
 
     <section class="audience wrap" aria-labelledby="kinek">
@@ -70,6 +78,72 @@
       </dl>
     </section>
 
+    <section id="kalkulator" class="calc" aria-labelledby="calc-cim">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="calc-cim">Számolja ki, mikor fogy el a pénz</h2>
+          <p>Állítsa be a cége számait, és a görbe megmutatja a bankszámla egyenlegét a következő 12 hónapban. A legtöbb meglepetést a vevők fizetési határideje okozza: próbálja ki, mi történik, ha eltolja.</p>
+        </div>
+
+        <div class="calc-grid">
+          <form class="calc-controls" id="calc-form" aria-label="A cég számai">
+            <div class="ctl">
+              <label for="c-start">Mostani egyenleg</label>
+              <output for="c-start" data-unit="mft"></output>
+              <input type="range" id="c-start" name="start" min="0" max="20" step="0.5" value="1.5">
+            </div>
+            <div class="ctl">
+              <label for="c-revenue">Havi árbevétel</label>
+              <output for="c-revenue" data-unit="mfth"></output>
+              <input type="range" id="c-revenue" name="revenue" min="1" max="50" step="0.5" value="8">
+            </div>
+            <div class="ctl">
+              <label for="c-growth">Havi növekedés</label>
+              <output for="c-growth" data-unit="pcth"></output>
+              <input type="range" id="c-growth" name="growth" min="-5" max="20" step="1" value="10">
+            </div>
+            <div class="ctl">
+              <label for="c-var">Anyag- és közvetlen költség <span class="opt">az árbevétel arányában</span></label>
+              <output for="c-var" data-unit="pct"></output>
+              <input type="range" id="c-var" name="variable" min="20" max="95" step="1" value="80">
+            </div>
+            <div class="ctl">
+              <label for="c-fix">Fix havi költség <span class="opt">bér, bérleti díj, rezsi</span></label>
+              <output for="c-fix" data-unit="mfth"></output>
+              <input type="range" id="c-fix" name="fixed" min="0" max="20" step="0.1" value="1.2">
+            </div>
+            <div class="ctl">
+              <label for="c-cust">A vevők ennyi nap alatt fizetnek</label>
+              <output for="c-cust" data-unit="nap"></output>
+              <input type="range" id="c-cust" name="custDays" min="0" max="120" step="5" value="60">
+            </div>
+            <div class="ctl">
+              <label for="c-supp">A szállítóknak ennyi nap alatt fizet</label>
+              <output for="c-supp" data-unit="nap"></output>
+              <input type="range" id="c-supp" name="suppDays" min="0" max="120" step="5" value="15">
+            </div>
+            <button type="reset" class="btn btn-quiet btn-small">Alapértékek</button>
+          </form>
+
+          <div class="calc-result">
+            <div class="calc-summary" aria-live="polite">
+              <p class="calc-verdict" id="calc-verdict"></p>
+              <p class="calc-detail" id="calc-detail"></p>
+              <p class="calc-tip" id="calc-tip"></p>
+            </div>
+            <figure class="ledger ledger-calc">
+              <svg id="calc-chart" viewBox="0 0 640 340" role="img" aria-labelledby="calc-verdict"></svg>
+              <figcaption>
+                Egyszerűsített becslés: a vevők és a szállítók fizetési határidejével eltolt pénzmozgást számolja,
+                a növekedés a következő hónapban indul. Adókat, hiteleket és egyszeri tételeket nem tartalmaz.
+              </figcaption>
+            </figure>
+            <a class="btn btn-primary" href="/kapcsolat.html?tema=cashflow">Átnézzük a valódi számait</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="szolgaltatasok" class="services" aria-labelledby="szolg-cim">
       <div class="wrap">
         <div class="section-head">
@@ -79,15 +153,15 @@
         <table class="price-list">
           <caption class="visually-hidden">Szolgáltatások listája árakkal</caption>
           <thead>
-            <tr><th scope="col">Szolgáltatás</th><th scope="col">Mit kap</th><th scope="col" class="num">Nettó ár</th></tr>
+            <tr><th scope="col">Szolgáltatás</th><th scope="col">Mit kap</th><th scope="col" class="num">Nettó ár</th><th scope="col"><span class="visually-hidden">Ajánlatkérés</span></th></tr>
           </thead>
           <tbody id="price-rows">
-            <tr><th scope="row">Pénzügyi tanácsadás</th><td>Egyedi pénzügyi tanácsadás szakértővel</td><td class="num">25 000 Ft / óra</td></tr>
-            <tr><th scope="row">Adótanácsadás</th><td>Adózási kérdések, adóoptimalizálás</td><td class="num">30 000 Ft / óra</td></tr>
-            <tr><th scope="row">Havi pénzügyi controlling</th><td>Havi riport, likviditásfigyelés</td><td class="num">120 000 Ft / hó</td></tr>
-            <tr><th scope="row">Hitelkérelem előkészítése</th><td>Banki dokumentáció összeállítása</td><td class="num">150 000 Ft / alkalom</td></tr>
-            <tr><th scope="row">Pályázati pénzügyi terv</th><td>Pályázat pénzügyi mellékleteinek elkészítése</td><td class="num">180 000 Ft / alkalom</td></tr>
-            <tr><th scope="row">Üzleti terv készítése</th><td>Pénzügyi előrejelzéssel, cash-flow tervvel</td><td class="num">350 000 Ft / alkalom</td></tr>
+            <tr><th scope="row">Pénzügyi tanácsadás</th><td>Egyedi pénzügyi tanácsadás szakértővel</td><td class="num">25 000 Ft / óra</td><td class="ask"><a href="/kapcsolat.html?tema=cashflow">Ajánlatot kérek</a></td></tr>
+            <tr><th scope="row">Adótanácsadás</th><td>Adózási kérdések, adóoptimalizálás</td><td class="num">30 000 Ft / óra</td><td class="ask"><a href="/kapcsolat.html?tema=tax">Ajánlatot kérek</a></td></tr>
+            <tr><th scope="row">Havi pénzügyi controlling</th><td>Havi riport, likviditásfigyelés</td><td class="num">120 000 Ft / hó</td><td class="ask"><a href="/kapcsolat.html?tema=cashflow">Ajánlatot kérek</a></td></tr>
+            <tr><th scope="row">Hitelkérelem előkészítése</th><td>Banki dokumentáció összeállítása</td><td class="num">150 000 Ft / alkalom</td><td class="ask"><a href="/kapcsolat.html?tema=loan">Ajánlatot kérek</a></td></tr>
+            <tr><th scope="row">Pályázati pénzügyi terv</th><td>Pályázat pénzügyi mellékleteinek elkészítése</td><td class="num">180 000 Ft / alkalom</td><td class="ask"><a href="/kapcsolat.html?tema=grant">Ajánlatot kérek</a></td></tr>
+            <tr><th scope="row">Üzleti terv készítése</th><td>Pénzügyi előrejelzéssel, cash-flow tervvel</td><td class="num">350 000 Ft / alkalom</td><td class="ask"><a href="/kapcsolat.html?tema=business_plan">Ajánlatot kérek</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -113,6 +187,32 @@
           <p>Egyszeri projekt vagy havi riport, ahogy Önnek jobb. Minden hónapban látja, hol tart a cég.</p>
         </li>
       </ol>
+    </section>
+
+    <section id="gyik" class="faq wrap" aria-labelledby="gyik-cim">
+      <h2 id="gyik-cim">Gyakori kérdések</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Mennyibe kerül az első beszélgetés?</summary>
+          <div class="faq-body"><p>Semmibe. Fél óra telefonon vagy online, amiben elmondja, mi a helyzet, mi pedig megmondjuk, tudunk-e segíteni és nagyjából mennyi munkával jár.</p></div>
+        </details>
+        <details>
+          <summary>Mit érdemes előkészíteni?</summary>
+          <div class="faq-body"><p>Az elmúlt néhány hónap bankszámlakivonatait, a nyitott vevő- és szállítói számlák listáját, valamint a hitelek és lízingek törlesztési ütemezését. Ha valami nincs meg, az sem baj: az átvilágítás során közösen összerakjuk.</p></div>
+        </details>
+        <details>
+          <summary>Miben más ez, mint a könyvelés?</summary>
+          <div class="faq-body"><p>A könyvelés a múltat rögzíti: mi történt és mennyi adót kell fizetni. A pénzügyi tanácsadás előre néz: mikor lesz szűkös a pénz, mit lehet tenni ellene, és hogyan finanszírozható a növekedés. A kettő kiegészíti egymást, a könyvelőjével is együtt tudunk dolgozni.</p></div>
+        </details>
+        <details>
+          <summary>Hogyan áll össze az ár?</summary>
+          <div class="faq-body"><p>A szolgáltatások óradíjasak vagy fix díjasak, ahogy a fenti árlistában szerepel. Minden munka előtt tételes, írásos árajánlatot küldünk, és csak az elfogadása után kezdünk.</p></div>
+        </details>
+        <details>
+          <summary>Mennyire bizalmasan kezelik az adataimat?</summary>
+          <div class="faq-body"><p>Az adatok titkosított kapcsolaton érkeznek, a belső rendszerünkhöz csak bejelentkezett munkatársak férnek hozzá, az adószámokat titkosítva tároljuk, és minden hozzáférést naplózunk. Részletek az <a href="/adatvedelem.html">adatkezelési tájékoztatóban</a>.</p></div>
+        </details>
+      </div>
     </section>
 
     <section class="cta-band" aria-labelledby="cta-cim">

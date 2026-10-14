@@ -81,7 +81,221 @@ function drawCashflow(svg) {
   svg.append(el('text', { x: R, y: y(actual[last]) - 14, 'text-anchor': 'end', class: 'cf-label actual cf-fade' }, 'Terv nélkül'));
 }
 
+// ─── Likviditás-kalkulátor ────────────────────────────────────────────────
+// Havi szimuláció: a bevétel a vevők fizetési határidejével, a közvetlen költség
+// a szállítóiéval eltolva érkezik / megy ki. A növekedés a következő hónapban indul.
+const MONTHS = ['január', 'február', 'március', 'április', 'május', 'június', 'július',
+  'augusztus', 'szeptember', 'október', 'november', 'december'];
+const MONTHS_SHORT = ['jan.', 'febr.', 'márc.', 'ápr.', 'máj.', 'jún.', 'júl.', 'aug.', 'szept.', 'okt.', 'nov.', 'dec.'];
+// "márciusban" / "2027 márciusában"
+const IN_MONTH = ['januárban', 'februárban', 'márciusban', 'áprilisban', 'májusban', 'júniusban', 'júliusban',
+  'augusztusban', 'szeptemberben', 'októberben', 'novemberben', 'decemberben'];
+const IN_MONTH_OF_YEAR = ['januárjában', 'februárjában', 'márciusában', 'áprilisában', 'májusában', 'júniusában',
+  'júliusában', 'augusztusában', 'szeptemberében', 'októberében', 'novemberében', 'decemberében'];
+
+function simulate({ start, revenue, growth, variable, fixed, custDays, suppDays }, months = 12) {
+  const rev = (m) => revenue * (1 + growth / 100) ** Math.max(0, m);
+  const out = [];
+  let balance = start;
+  for (let m = 1; m <= months; m++) {
+    const inflow = rev(m - custDays / 30);
+    const outflow = (variable / 100) * rev(m - suppDays / 30) + fixed;
+    balance += inflow - outflow;
+    out.push(balance);
+  }
+  return out;
+}
+
+const fmtM = (v, digits = 1) =>
+  `${v < 0 ? '−' : ''}${Math.abs(v).toLocaleString('hu-HU', { minimumFractionDigits: digits, maximumFractionDigits: digits })} M Ft`;
+const UNITS = {
+  mft: (v) => fmtM(v),
+  mfth: (v) => `${fmtM(v)}/hó`,
+  pct: (v) => `${v} %`,
+  pcth: (v) => `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v)} %/hó`,
+  nap: (v) => `${v} nap`,
+};
+
+function niceScale(lo, hi) {
+  lo = Math.min(0, lo);
+  hi = Math.max(0, hi);
+  if (lo < 0) lo -= (hi - lo) * 0.14; // hely a mélypont felirata alatt
+  const span = hi - lo || 1;
+  const step = [0.5, 1, 2, 2.5, 5, 10, 20, 25, 50, 100, 200, 500].find((s) => span / s <= 5) || 1000;
+  return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step };
+}
+
+function setupCalculator(form) {
+  const svg = document.getElementById('calc-chart');
+  const verdict = document.getElementById('calc-verdict');
+  const detail = document.getElementById('calc-detail');
+  const tip = document.getElementById('calc-tip');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const W = 640, L = 64, R = 616, T = 14, B = 296;
+  const now = new Date();
+  const labels = Array.from({ length: 12 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() + 1 + i, 1);
+    return { short: MONTHS_SHORT[d.getMonth()], month: d.getMonth(), year: d.getFullYear() };
+  });
+  const x = (i) => L + (i * (R - L)) / 11;
+
+  // Állandó elemek
+  const defs = el('defs');
+  const clipA = el('clipPath', { id: 'calc-above' });
+  const clipB = el('clipPath', { id: 'calc-below' });
+  const rectA = el('rect', { x: 0, y: 0, width: W });
+  const rectB = el('rect', { x: 0, width: W });
+  clipA.append(rectA);
+  clipB.append(rectB);
+  defs.append(clipA, clipB);
+  const grid = el('g', { class: 'cf-grid' });
+  const axis = el('g');
+  const area = el('path', { class: 'cf-deficit', 'clip-path': 'url(#calc-below)' });
+  const zero = el('line', { x1: L, x2: R, class: 'cf-zero' });
+  const lineA = el('path', { class: 'cf-actual above', 'clip-path': 'url(#calc-above)' });
+  const lineB = el('path', { class: 'cf-actual below', 'clip-path': 'url(#calc-below)' });
+  const dot = el('circle', { r: 5, class: 'cf-dot' });
+  const note = el('text', { class: 'cf-note' });
+  const months = el('g');
+  labels.forEach((l, i) =>
+    months.append(el('text', { x: x(i), y: B + 26, 'text-anchor': 'middle', class: 'cf-axis' }, i % 2 ? '' : l.short)));
+  svg.append(defs, grid, axis, area, zero, lineA, lineB, dot, note, months);
+
+  // Catmull-Rom → Bézier: sima görbe, ami pontosan a havi értékeken megy át
+  const linePath = (p) => {
+    let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += ` C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+    }
+    return d;
+  };
+
+  function draw(values, scale) {
+    const y = (v) => T + ((scale.hi - v) / (scale.hi - scale.lo)) * (B - T);
+    const y0 = y(0);
+    grid.replaceChildren();
+    axis.replaceChildren();
+    for (let v = scale.lo; v <= scale.hi + 1e-9; v += scale.step) {
+      const yy = y(v);
+      if (Math.abs(v) > 1e-9) grid.append(el('line', { x1: L, x2: R, y1: yy, y2: yy }));
+      axis.append(el('text', { x: L - 12, y: yy + 4, 'text-anchor': 'end', class: `cf-axis${Math.abs(v) < 1e-9 ? ' zero' : ''}` },
+        Math.abs(v) < 1e-9 ? '0' : `${v < 0 ? '−' : ''}${Math.abs(+v.toFixed(1)).toLocaleString('hu-HU')} M`));
+    }
+    zero.setAttribute('y1', y0);
+    zero.setAttribute('y2', y0);
+    rectA.setAttribute('height', Math.max(0, y0));
+    rectB.setAttribute('y', y0);
+    rectB.setAttribute('height', Math.max(0, 400 - y0));
+    const pts = values.map((v, i) => [x(i), y(v)]);
+    const d = linePath(pts);
+    lineA.setAttribute('d', d);
+    lineB.setAttribute('d', d);
+    area.setAttribute('d', `${d} L${x(11)},${y0} L${x(0)},${y0} Z`);
+    const iMin = values.indexOf(Math.min(...values));
+    const neg = values[iMin] < 0;
+    dot.style.setProperty('opacity', neg ? 1 : 0);
+    note.style.setProperty('opacity', neg ? 1 : 0);
+    dot.setAttribute('cx', pts[iMin][0]);
+    dot.setAttribute('cy', pts[iMin][1]);
+    const right = iMin > 8;
+    note.setAttribute('x', pts[iMin][0] + (right ? -12 : 12));
+    note.setAttribute('text-anchor', right ? 'end' : 'start');
+    note.setAttribute('y', Math.min(B - 6, pts[iMin][1] + 22));
+    note.textContent = fmtM(values[iMin]);
+  }
+
+  // Animált átmenet az előző és az új állapot között
+  let shown = null;
+  let frame = 0;
+  function animateTo(values, scale) {
+    cancelAnimationFrame(frame);
+    if (!shown || reduceMotion) {
+      shown = { values, scale };
+      draw(values, scale);
+      return;
+    }
+    const from = shown;
+    const t0 = performance.now();
+    const dur = 420;
+    const ease = (t) => 1 - (1 - t) ** 3;
+    const step = (now) => {
+      const k = ease(Math.min(1, (now - t0) / dur));
+      const mix = (a, b) => a + (b - a) * k;
+      const cur = {
+        values: values.map((v, i) => mix(from.values[i], v)),
+        scale: { lo: mix(from.scale.lo, scale.lo), hi: mix(from.scale.hi, scale.hi), step: k < 0.5 ? from.scale.step : scale.step },
+      };
+      shown = cur;
+      draw(cur.values, cur.scale);
+      if (k < 1) frame = requestAnimationFrame(step);
+      else shown = { values, scale };
+    };
+    frame = requestAnimationFrame(step);
+  }
+
+  const whenText = (i) => {
+    const l = labels[i];
+    return l.year === now.getFullYear() ? IN_MONTH[l.month] : `${l.year} ${IN_MONTH_OF_YEAR[l.month]}`;
+  };
+
+  function update() {
+    const p = Object.fromEntries([...form.elements].filter((e) => e.type === 'range').map((e) => [e.name, Number(e.value)]));
+    for (const input of form.querySelectorAll('input[type=range]')) {
+      const out = form.querySelector(`output[for="${input.id}"]`);
+      out.textContent = UNITS[out.dataset.unit](Number(input.value));
+      const pct = ((input.value - input.min) / (input.max - input.min)) * 100;
+      input.style.setProperty('--fill', `${pct}%`);
+    }
+    const values = simulate(p);
+    const sc = niceScale(Math.min(...values), Math.max(...values));
+    animateTo(values, sc);
+
+    const firstNeg = values.findIndex((v) => v < 0);
+    const iMin = values.indexOf(Math.min(...values));
+    if (firstNeg >= 0) {
+      const negMonths = values.filter((v) => v < 0).length;
+      verdict.textContent = `${whenText(firstNeg).replace(/^./, (c) => c.toUpperCase())} elfogy a pénz.`;
+      verdict.classList.add('is-negative');
+      detail.textContent = `A legmélyebb pont ${fmtM(values[iMin])} (${MONTHS[labels[iMin].month]}), és ${negMonths} hónapig mínuszban áll a számla.`;
+      if (p.custDays >= 30) {
+        const alt = simulate({ ...p, custDays: p.custDays - 30 });
+        const altMin = Math.min(...alt);
+        tip.textContent = altMin >= 0
+          ? `Ha a vevők 30 nappal hamarabb fizetnének, egész évben pozitív maradna az egyenleg (legalább ${fmtM(altMin)}).`
+          : `Ha a vevők 30 nappal hamarabb fizetnének, a legmélyebb pont ${fmtM(altMin)} lenne.`;
+      } else {
+        tip.textContent = 'Itt már nem a vevők a szűk keresztmetszet: a költségarányon vagy az induló tartalékon érdemes dolgozni.';
+      }
+    } else {
+      verdict.textContent = 'A következő 12 hónapban nem fogy el a pénz.';
+      verdict.classList.remove('is-negative');
+      detail.textContent = `A legalacsonyabb egyenleg ${fmtM(values[iMin])} (${MONTHS[labels[iMin].month]}).`;
+      tip.textContent = p.growth > 0
+        ? 'Próbálja ki nagyobb növekedéssel vagy hosszabb vevői határidővel: a gyors növekedés viszi el a legtöbb készpénzt.'
+        : '';
+    }
+  }
+
+  form.addEventListener('input', update);
+  form.addEventListener('reset', () => setTimeout(update));
+  update();
+}
+
 // ─── Élő árlista a portál szolgáltatás-katalógusából ──────────────────────
+// Szolgáltatás → az űrlap témája (a név alapján)
+const topicForService = (name) => {
+  const n = name.toLowerCase();
+  if (n.includes('adó')) return 'tax';
+  if (n.includes('üzleti terv')) return 'business_plan';
+  if (n.includes('pályázat')) return 'grant';
+  if (n.includes('hitel')) return 'loan';
+  if (n.includes('controlling') || n.includes('pénzügyi tanácsadás')) return 'cashflow';
+  return 'other';
+};
 const huf = new Intl.NumberFormat('hu-HU', { maximumFractionDigits: 0 });
 async function loadPrices(tbody) {
   try {
@@ -99,7 +313,13 @@ async function loadPrices(tbody) {
       const price = document.createElement('td');
       price.className = 'num';
       price.textContent = `${huf.format(Number(s.unit_price))} Ft / ${s.unit}`;
-      tr.append(th, desc, price);
+      const ask = document.createElement('td');
+      ask.className = 'ask';
+      const link = document.createElement('a');
+      link.href = `/kapcsolat.html?tema=${topicForService(s.name)}`;
+      link.textContent = 'Ajánlatot kérek';
+      ask.append(link);
+      tr.append(th, desc, price, ask);
       return tr;
     }));
   } catch {
@@ -225,6 +445,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('inquiry-form');
   if (form) setupForm(form);
   loadContact();
+  const calc = document.getElementById('calc-form');
+  if (calc) setupCalculator(calc);
+  // Az árlistából érkezve a téma előre ki van választva
+  const topic = new URLSearchParams(location.search).get('tema');
+  const topicSelect = document.getElementById('f-topic');
+  if (topic && topicSelect && [...topicSelect.options].some((o) => o.value === topic)) topicSelect.value = topic;
+  // Fejléc árnyéka görgetéskor
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
   const portal = document.getElementById('portal-link');
   if (portal) fixPortalLink(portal);
 });

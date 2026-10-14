@@ -51,7 +51,7 @@ body {
 }
 
 h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.02em; line-height: 1.08; }
-h2 { font-size: clamp(30px, 3.6vw, 44px); }
+h2 { font-size: clamp(30px, 3.6vw, 44px); text-wrap: balance; }
 h3 { font-size: 20px; letter-spacing: -0.01em; }
 p { margin: 0; }
 a { color: var(--blue); text-underline-offset: 3px; }
@@ -64,7 +64,11 @@ a:hover { color: var(--ink); }
 .skip:focus { left: 8px; }
 
 /* Fejléc */
-.site-header { border-bottom: 1px solid var(--rule); }
+.site-header { position: sticky; top: 0; z-index: 20; background: rgba(238, 242, 247, 0.88);
+  backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--rule); transition: box-shadow .25s ease, border-color .25s ease; }
+.site-header.is-scrolled { border-bottom-color: transparent; box-shadow: 0 6px 24px -12px rgba(20, 47, 76, 0.35); }
+html { scroll-padding-top: 88px; }
 .header-row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
 .logo { display: block; line-height: 0; }
 .logo img { display: block; height: 40px; width: auto; }
@@ -87,7 +91,7 @@ a:hover { color: var(--ink); }
 
 /* Hero */
 .hero { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(32px, 5vw, 72px); align-items: center;
-  padding-top: clamp(48px, 8vw, 104px); padding-bottom: clamp(56px, 8vw, 112px); }
+  padding-top: clamp(48px, 8vw, 104px); padding-bottom: clamp(40px, 5vw, 64px); }
 .hero h1 { font-size: clamp(42px, 6.2vw, 80px); letter-spacing: -0.035em; line-height: 1.0; max-width: 11ch; }
 .lede { margin-top: 28px; font-size: 19px; color: var(--ink-soft); max-width: 46ch; }
 .hero-actions { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
@@ -250,4 +254,88 @@ a:hover { color: var(--ink); }
 @media (max-width: 640px) {
   .cta-row { grid-template-columns: 1fr; align-items: start; }
   .logo img { height: 32px; }
+}
+
+/* Hero: halvány szárny a logóból + vállalások */
+.promises { list-style: none; margin: 0 auto; padding-top: 24px; padding-bottom: clamp(48px, 6vw, 80px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.promises li { border-top: 2px solid var(--blue); padding-top: 14px; display: grid; gap: 2px; }
+.promises strong { font-size: 18px; letter-spacing: -0.01em; }
+.promises span { color: var(--ink-soft); font-size: 15px; }
+
+/* Kalkulátor */
+.calc { padding-block: clamp(56px, 7vw, 96px); border-top: 1px solid var(--rule); }
+.calc-grid { display: grid; grid-template-columns: 4fr 7fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
+.calc-controls { display: grid; gap: 22px; }
+.ctl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.ctl label { font-weight: 500; font-size: 15px; }
+.ctl .opt { display: block; font-weight: 400; font-size: 13px; color: var(--ink-soft); }
+.ctl output { font-weight: 700; font-size: 17px; color: var(--blue-deep); white-space: nowrap; }
+.ctl input[type=range] { grid-column: 1 / -1; }
+.btn-small { justify-self: start; padding: 9px 18px; font-size: 15px; }
+
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 28px; margin: 0; background: transparent; cursor: pointer; --fill: 50%; }
+input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--blue) var(--fill), var(--paper-deep) var(--fill)); }
+input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: var(--paper-deep); }
+input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--blue); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -8px; border-radius: 50%;
+  background: var(--white); border: 2px solid var(--blue); box-shadow: 0 2px 6px rgba(20, 47, 76, 0.25); transition: transform .15s ease; }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--white);
+  border: 2px solid var(--blue); box-shadow: 0 2px 6px rgba(20, 47, 76, 0.25); }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+input[type=range]:focus-visible::-moz-range-thumb { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+
+.calc-result { display: grid; gap: 20px; justify-items: start; }
+.calc-summary { min-height: 132px; }
+.calc-verdict { font-size: clamp(26px, 3vw, 36px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
+.calc-verdict.is-negative { color: var(--red); }
+.calc-detail { margin-top: 10px; font-size: 17px; }
+.calc-tip { margin-top: 8px; color: var(--ink-soft); max-width: 60ch; }
+.calc-tip:empty { display: none; }
+.ledger-calc { width: 100%; }
+
+/* Árlista: ajánlatkérés */
+.price-list td.ask { text-align: right; white-space: nowrap; padding-left: 24px; padding-right: 0; width: 1%; }
+.price-list td.ask a { font-weight: 500; font-size: 15px; text-decoration: none; color: var(--blue);
+  border-bottom: 1.5px solid transparent; transition: border-color .2s ease; }
+.price-list td.ask a:hover { border-bottom-color: var(--blue); }
+.price-list tbody tr { transition: background-color .2s ease; }
+.price-list tbody tr:hover { background: var(--paper); }
+
+/* GYIK */
+.faq { padding-block: clamp(56px, 7vw, 96px); display: grid; grid-template-columns: 4fr 8fr; gap: 40px; border-top: 1px solid var(--rule); }
+.faq-list { border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 44px 20px 0; position: relative;
+  font-weight: 700; font-size: 19px; letter-spacing: -0.01em; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ''; position: absolute; right: 6px; top: 50%; width: 14px; height: 14px; margin-top: -7px;
+  background: linear-gradient(var(--blue), var(--blue)) center / 100% 2px no-repeat,
+              linear-gradient(var(--blue), var(--blue)) center / 2px 100% no-repeat;
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1); }
+.faq details[open] summary::after { transform: rotate(135deg); }
+.faq summary:hover { color: var(--blue); }
+.faq-body { padding: 0 44px 22px 0; color: var(--ink-soft); max-width: 64ch; }
+/* Sima nyitás ott, ahol a böngésző tudja */
+@supports (interpolate-size: allow-keywords) {
+  .faq details { interpolate-size: allow-keywords; }
+  .faq details::details-content { height: 0; overflow: clip; transition: height .35s cubic-bezier(.4, 0, .2, 1), content-visibility .35s allow-discrete; }
+  .faq details[open]::details-content { height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header, .faq summary::after, .faq details::details-content { transition: none !important; }
+}
+@media (max-width: 900px) {
+  .calc-grid, .faq { grid-template-columns: 1fr; }
+  .calc-result { order: -1; }  /* mobilon az eredmény van felül, a csúszkák alatta */
+  .faq { gap: 24px; }
+}
+@media (max-width: 640px) {
+  .promises { grid-template-columns: 1fr; gap: 16px; }
+  .price-list td.ask { grid-column: 1 / -1; grid-row: 3; text-align: left; padding: 8px 0 0; }
+  .calc-summary { min-height: 0; }
 }

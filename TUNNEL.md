@@ -66,10 +66,10 @@ notepad .env
 Töltsd ki (kulcsgenerálás PowerShellben, kétszer futtasd, két külön kulcsot kapsz):
 
 ```powershell
--join ((1..32) | % { '{0:x2}' -f (Get-Random -Max 256) })
+$b = New-Object byte[] 32; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); -join ($b | % { '{0:x2}' -f $_ })
 ```
 
-- `POSTGRES_PASSWORD` – bármilyen hosszú jelszó
+- `POSTGRES_PASSWORD` – csak betűk és számok (pl. a fenti paranccsal generált érték), mert a kapcsolódási címbe kerül
 - `JWT_SECRET` és `DATA_ENCRYPTION_KEY` – a fenti paranccsal generált két érték
 - `SEED_ADMIN_PASSWORD` – az első belépéshez (min. 12 karakter, kis- és nagybetű, szám)
 - `TUNNEL_TOKEN` – a 3. lépésben kimásolt token

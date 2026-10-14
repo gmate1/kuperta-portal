@@ -17,7 +17,10 @@ export default function App() {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div className="brand">Kuperta<span>portál</span></div>
+        <div className="brand">
+          <img src="/logo-head-light.png" alt="Kuperta" width="644" height="100" />
+          <span className="sub">Belső portál</span>
+        </div>
         <nav>
           <NavLink to="/" end>Áttekintés</NavLink>
           <NavLink to="/inquiries">Érdeklődések</NavLink>

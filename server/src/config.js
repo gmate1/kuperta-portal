@@ -20,6 +20,12 @@ export const config = {
   // 'auto': Secure süti, ha a kérés HTTPS-en jött (X-Forwarded-Proto), egyébként nem.
   // Így a tunnelen (HTTPS) és helyben (http://portal.localhost) is működik.
   cookieSecure: process.env.COOKIE_SECURE || 'auto',
+  // A weboldal Kapcsolat oldalán megjelenő céges elérhetőségek (üresen hagyható)
+  company: {
+    email: (process.env.COMPANY_EMAIL || '').trim(),
+    phone: (process.env.COMPANY_PHONE || '').trim(),
+    address: (process.env.COMPANY_ADDRESS || '').trim(),
+  },
 };
 
 if (config.jwtSecret.length < 32) {

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kapcsolat – Kuperta</title>
+  <meta name="description" content="Kérjen időpontot a Kuperta pénzügyi tanácsadóitól. Egy munkanapon belül válaszolunk.">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/mark-192.png">
+  <meta name="theme-color" content="#142f4c">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a href="/" class="logo"><img src="/img/logo-head.png" width="644" height="100" alt="Kuperta – főoldal"></a>
+      <nav aria-label="Fő navigáció">
+        <a href="/#szolgaltatasok">Szolgáltatások</a>
+        <a href="/#folyamat">Hogyan dolgozunk</a>
+        <a href="/kapcsolat.html" class="nav-cta" aria-current="page">Kapcsolat</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="tartalom" class="contact contact-page">
+    <div class="wrap contact-grid">
+      <div class="contact-intro">
+        <h1>Kapcsolat</h1>
+        <p>Írja le röviden, miben segíthetünk. Egy munkanapon belül válaszolunk, és egyeztetünk egy időpontot az első, díjmentes beszélgetésre.</p>
+
+        <dl class="contact-details">
+          <div>
+            <dt>Email</dt>
+            <dd data-contact="email"><span class="pending">Az email címünk hamarosan itt lesz. Addig az űrlapon érhet el minket.</span></dd>
+          </div>
+          <div data-contact-row="phone" hidden>
+            <dt>Telefon</dt>
+            <dd data-contact="phone"></dd>
+          </div>
+          <div data-contact-row="address" hidden>
+            <dt>Iroda</dt>
+            <dd data-contact="address"></dd>
+          </div>
+        </dl>
+      </div>
+
+        <form id="inquiry-form" class="form" novalidate>
+          <div class="field">
+            <label for="f-name">Név</label>
+            <input id="f-name" name="name" autocomplete="name" required minlength="2" maxlength="200">
+          </div>
+          <div class="field">
+            <label for="f-company">Cégnév <span class="opt">(ha van)</span></label>
+            <input id="f-company" name="company" autocomplete="organization" maxlength="200">
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="255">
+          </div>
+          <div class="field">
+            <label for="f-phone">Telefon <span class="opt">(nem kötelező)</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="50">
+          </div>
+          <div class="field field-wide">
+            <label for="f-topic">Miben segíthetünk?</label>
+            <select id="f-topic" name="topic" required>
+              <option value="cashflow">Cash-flow és likviditás</option>
+              <option value="tax">Adózás</option>
+              <option value="business_plan">Üzleti terv</option>
+              <option value="grant">Pályázat</option>
+              <option value="loan">Hitel, finanszírozás</option>
+              <option value="other">Egyéb</option>
+            </select>
+          </div>
+          <div class="field field-wide">
+            <label for="f-message">Üzenet</label>
+            <textarea id="f-message" name="message" rows="5" required minlength="10" maxlength="3000"
+              placeholder="Például: nő a forgalom, de a hónap végén mindig szűkösen állunk."></textarea>
+          </div>
+          <!-- Honeypot: embereknek rejtett mező, botok kitöltik -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Weboldal</label>
+            <input id="f-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="field field-wide check">
+            <input id="f-consent" name="consent" type="checkbox" required>
+            <label for="f-consent">Elolvastam az <a href="/adatvedelem.html">adatkezelési tájékoztatót</a>, és hozzájárulok, hogy az adataimat a megkeresésem megválaszolásához kezeljék.</label>
+          </div>
+          <p class="form-status field-wide" id="form-status" role="status" aria-live="polite"></p>
+          <div class="field-wide">
+            <button class="btn btn-primary" type="submit">Üzenet küldése</button>
+          </div>
+        </form>
+      </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <a href="/" class="logo"><img src="/img/logo.png" width="1288" height="238" alt="Kuperta – Az összetett pénzügy!"></a>
+      <a href="/kapcsolat.html">Kapcsolat</a>
+      <a href="/adatvedelem.html">Adatkezelési tájékoztató</a>
+      <a href="https://portal.kuperta.hu" id="portal-link">Belépés munkatársaknak</a>
+      <span class="note">Szakmai gyakorlati projekt bemutató környezete.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -107,6 +107,47 @@ async function loadPrices(tbody) {
   }
 }
 
+// ─── Céges elérhetőségek ───────────────────────────────────────────────────
+// Egy helyen állíthatók: a .env COMPANY_EMAIL / COMPANY_PHONE / COMPANY_ADDRESS
+// változói, az API adja vissza. Ha nincs megadva, marad a helyőrző szöveg.
+let companyEmail = '';
+
+async function loadContact() {
+  const targets = document.querySelectorAll('[data-contact]');
+  if (!targets.length) return;
+  let info;
+  try {
+    const res = await fetch('/api/public/contact');
+    if (!res.ok) return;
+    info = await res.json();
+  } catch {
+    return;
+  }
+  companyEmail = info.email || '';
+  for (const node of targets) {
+    const key = node.dataset.contact;
+    const value = info[key];
+    if (!value) continue;
+    let content;
+    if (key === 'email') {
+      content = document.createElement('a');
+      content.href = `mailto:${value}`;
+      content.textContent = value;
+    } else if (key === 'phone') {
+      content = document.createElement('a');
+      content.href = `tel:${value.replace(/[^0-9+]/g, '')}`;
+      content.textContent = value;
+    } else {
+      content = document.createTextNode(value);
+    }
+    node.classList.remove('todo');
+    node.replaceChildren(content);
+    document.querySelector(`[data-contact-row="${key}"]`)?.removeAttribute('hidden');
+  }
+}
+
+const fallbackHint = () => (companyEmail ? `, vagy írjon a ${companyEmail} címre` : ' egy kicsit később');
+
 // ─── Kapcsolat űrlap ───────────────────────────────────────────────────────
 const FIELD_NAMES = { name: 'Név', email: 'Email', phone: 'Telefon', message: 'Üzenet', consent: 'Hozzájárulás', topic: 'Téma' };
 
@@ -149,6 +190,7 @@ function setupForm(form) {
       if (res.ok) {
         form.classList.add('sent');
         show('ok', 'Köszönjük, megkaptuk az üzenetét. Egy munkanapon belül válaszolunk a megadott email címre.');
+        form.closest('.contact')?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
         status.focus?.();
         return;
       }
@@ -156,10 +198,10 @@ function setupForm(form) {
         body.details.forEach((d) => form.elements[d.path]?.setAttribute('aria-invalid', 'true'));
         show('error', body.details.map((d) => d.message).join(' '));
       } else {
-        show('error', body.error || 'Az üzenet nem ment el. Próbálja újra, vagy írjon az info@kuperta.hu címre.');
+        show('error', body.error || `Az üzenet nem ment el. Próbálja újra${fallbackHint()}.`);
       }
     } catch {
-      show('error', 'Nincs kapcsolat a szerverrel. Próbálja újra, vagy írjon az info@kuperta.hu címre.');
+      show('error', `Nincs kapcsolat a szerverrel. Próbálja újra${fallbackHint()}.`);
     } finally {
       button.disabled = false;
       button.textContent = 'Üzenet küldése';
@@ -182,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rows) loadPrices(rows);
   const form = document.getElementById('inquiry-form');
   if (form) setupForm(form);
+  loadContact();
   const portal = document.getElementById('portal-link');
   if (portal) fixPortalLink(portal);
 });

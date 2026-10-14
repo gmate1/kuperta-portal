@@ -1,4 +1,4 @@
-/* Kuperta – főkönyvi papír, tintazöld, könyvelői piros (csak negatív értékre) */
+/* Kuperta – a logó két kékje, a felirat feketéje; könyvelői piros csak negatív értékre */
 
 @font-face { font-family: 'Schibsted Grotesk'; font-weight: 400; font-display: swap;
   src: url(/fonts/schibsted-grotesk-latin-ext-400-normal.woff2) format('woff2');
@@ -20,14 +20,18 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
-  --paper: #edf1eb;
-  --paper-deep: #e1e8de;
-  --ink: #15241d;
-  --ink-soft: #4b5c54;
-  --rule: #b3c4bb;
-  --green: #1f5f4a;
+  --paper: #eef2f7;        /* hűvös, kékes papír */
+  --paper-deep: #dfe7f1;
+  --ink: #17202a;          /* a logó feliratának feketéje */
+  --ink-soft: #4a5868;
+  --rule: #b9c7d8;
+  --blue: #3173ad;         /* logó: sötétkék szárny */
+  --blue-deep: #255a8a;    /* gomb hover, szöveg kontraszthoz */
+  --blue-light: #6b9cd6;   /* logó: világoskék szárny */
+  --navy: #142f4c;         /* sötét szekciók a két kékből */
+  --on-navy: #c9d7e8;
   --red: #b8322a;
-  --white: #fbfcfa;
+  --white: #fbfcfe;
   --wrap: 1160px;
   --gutter: clamp(16px, 4vw, 40px);
 }
@@ -50,9 +54,9 @@ h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.02em; line-height: 
 h2 { font-size: clamp(30px, 3.6vw, 44px); }
 h3 { font-size: 20px; letter-spacing: -0.01em; }
 p { margin: 0; }
-a { color: var(--green); text-underline-offset: 3px; }
+a { color: var(--blue); text-underline-offset: 3px; }
 a:hover { color: var(--ink); }
-:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
 
 .wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: var(--gutter); }
 .visually-hidden, .hp { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -62,19 +66,21 @@ a:hover { color: var(--ink); }
 /* Fejléc */
 .site-header { border-bottom: 1px solid var(--rule); }
 .header-row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-.wordmark { font-weight: 700; font-size: 24px; letter-spacing: -0.04em; color: var(--ink); text-decoration: none; }
-.wordmark.small { font-size: 18px; }
+.logo { display: block; line-height: 0; }
+.logo img { display: block; height: 40px; width: auto; }
+.site-footer .logo img { height: 52px; }
 .site-header nav { display: flex; gap: 28px; align-items: center; }
 .site-header nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 16px; }
-.site-header nav a:hover { color: var(--green); }
-.site-header nav .nav-cta { border: 1.5px solid var(--ink); padding: 8px 16px; border-radius: 999px; }
-.site-header nav .nav-cta:hover { background: var(--ink); color: var(--white); }
+.site-header nav a:hover { color: var(--blue); }
+.site-header nav a[aria-current="page"]:not(.nav-cta) { color: var(--blue); }
+.site-header nav .nav-cta { border: 1.5px solid var(--blue); color: var(--blue); padding: 8px 16px; border-radius: 999px; }
+.site-header nav .nav-cta:hover, .site-header nav .nav-cta[aria-current="page"] { background: var(--blue); color: var(--white); }
 
 /* Gombok */
 .btn { display: inline-block; font: inherit; font-weight: 500; font-size: 17px; padding: 14px 24px; border-radius: 999px;
   text-decoration: none; cursor: pointer; border: 1.5px solid transparent; }
-.btn-primary { background: var(--green); color: var(--white); }
-.btn-primary:hover { background: var(--ink); color: var(--white); }
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-primary:hover { background: var(--blue-deep); color: var(--white); }
 .btn-primary:disabled { opacity: 0.6; cursor: progress; }
 .btn-quiet { color: var(--ink); border-color: var(--rule); }
 .btn-quiet:hover { border-color: var(--ink); color: var(--ink); }
@@ -93,11 +99,11 @@ a:hover { color: var(--ink); }
 .ledger figcaption { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-deep);
   font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
 
-.cf-grid line { stroke: #d6e0db; stroke-width: 1; }
+.cf-grid line { stroke: #dbe3ee; stroke-width: 1; }
 .cf-zero { stroke: var(--ink); stroke-width: 1.25; }
 .cf-axis { fill: var(--ink-soft); font-size: 13px; font-family: inherit; }
 .cf-axis.zero { fill: var(--ink); font-weight: 500; }
-.cf-plan { fill: none; stroke: var(--green); stroke-width: 2.5; stroke-dasharray: 7 6; }
+.cf-plan { fill: none; stroke: var(--blue); stroke-width: 2.5; stroke-dasharray: 7 6; }
 .cf-actual { fill: none; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
 .cf-actual.above { stroke: var(--ink); }
 .cf-actual.below { stroke: var(--red); }
@@ -105,7 +111,7 @@ a:hover { color: var(--ink); }
 .cf-dot { fill: var(--red); }
 .cf-note { font-size: 14px; font-family: inherit; font-weight: 700; fill: var(--red); }
 .cf-label { font-size: 14px; font-family: inherit; font-weight: 500; }
-.cf-label.plan { fill: var(--green); }
+.cf-label.plan { fill: var(--blue); }
 .cf-label.actual { fill: var(--ink); }
 
 /* Animáció: egyetlen kirajzolódás betöltéskor */
@@ -150,43 +156,43 @@ a:hover { color: var(--ink); }
 .steps li { counter-increment: step; padding: 20px 24px 0 0; position: relative; }
 .steps li + li { padding-left: 24px; border-left: 1px solid var(--rule); }
 .steps li::before { content: counter(step); display: block; font-size: 48px; font-weight: 700; line-height: 1;
-  letter-spacing: -0.04em; color: var(--green); margin-bottom: 20px; }
+  letter-spacing: -0.04em; color: var(--blue); margin-bottom: 20px; }
 .steps p { margin-top: 10px; color: var(--ink-soft); font-size: 16px; }
 
 /* Kapcsolat */
-.contact { background: var(--ink); color: var(--paper); padding-block: clamp(56px, 7vw, 96px); }
-.contact a { color: #a9dcc6; }
+.contact { background: var(--navy); color: var(--paper); padding-block: clamp(56px, 7vw, 96px); }
+.contact a, .cta-band a:not(.btn) { color: #a9cbf2; }
 .contact a:hover { color: var(--white); }
 .contact-grid { display: grid; grid-template-columns: 4fr 7fr; gap: clamp(32px, 5vw, 72px); }
-.contact-intro p { margin-top: 20px; color: #c3d0c9; max-width: 40ch; }
+.contact-intro p { margin-top: 20px; color: var(--on-navy); max-width: 40ch; }
 .contact-intro .contact-direct { color: var(--paper); }
 
 .form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 20px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field-wide { grid-column: 1 / -1; }
 .field label { font-size: 15px; font-weight: 500; }
-.field .opt { font-weight: 400; color: #9fb2a9; }
+.field .opt { font-weight: 400; color: #93a8c2; }
 .form input, .form select, .form textarea {
   font: inherit; font-size: 17px; color: var(--ink); background: var(--white);
   border: 2px solid transparent; border-radius: 6px; padding: 11px 13px; width: 100%; }
 .form textarea { resize: vertical; min-height: 130px; }
-.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: #7cc3a5; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--blue-light); }
 .form [aria-invalid="true"] { border-color: #ff8a80; }
 .field.check { flex-direction: row; align-items: flex-start; gap: 12px; }
-.field.check input { width: 20px; height: 20px; margin: 3px 0 0; flex: none; accent-color: var(--green); }
-.field.check label { font-weight: 400; color: #c3d0c9; }
+.field.check input { width: 20px; height: 20px; margin: 3px 0 0; flex: none; accent-color: var(--blue); }
+.field.check label { font-weight: 400; color: var(--on-navy); }
 .contact .btn-primary { background: var(--paper); color: var(--ink); }
 .contact .btn-primary:hover { background: var(--white); color: var(--ink); }
 .form-status:empty { display: none; }
 .form.sent { align-content: start; }
 .form-status { align-self: start; padding: 12px 14px; border-radius: 6px; font-size: 16px; }
 .form-status.error { background: #4a1e1b; color: #ffd7d3; }
-.form-status.ok { background: #1f4a3b; color: #d9f2e7; }
+.form-status.ok { background: #1e4a78; color: #e1eefc; }
 .form.sent .field, .form.sent .btn { display: none; }
 
 /* Lábléc */
 .site-footer { padding-block: 32px; }
-.footer-row { display: flex; gap: 28px; align-items: baseline; flex-wrap: wrap; font-size: 15px; }
+.footer-row { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; font-size: 15px; }
 .footer-row .note { margin-left: auto; color: var(--ink-soft); font-size: 14px; }
 
 /* Adatkezelési oldal */
@@ -220,4 +226,27 @@ a:hover { color: var(--ink); }
   .steps li + li { border-top: 1px solid var(--rule); }
   .form { grid-template-columns: 1fr; }
   .footer-row .note { margin-left: 0; width: 100%; }
+}
+
+/* Főoldal alja: átvezetés a Kapcsolat oldalra */
+.cta-band { background: var(--navy); color: var(--paper); padding-block: clamp(48px, 6vw, 80px); }
+.cta-row { display: grid; grid-template-columns: 1fr auto; gap: 24px 48px; align-items: end; }
+.cta-row p { margin-top: 14px; color: var(--on-navy); max-width: 52ch; }
+.cta-band .btn-primary, .contact .btn-primary { background: var(--blue-light); color: var(--ink); }
+.cta-band .btn-primary:hover, .contact .btn-primary:hover { background: var(--white); color: var(--ink); }
+
+/* Kapcsolat oldal */
+.contact-page { padding-top: clamp(48px, 7vw, 88px); }
+.contact-page h1 { font-size: clamp(40px, 5.5vw, 68px); letter-spacing: -0.035em; line-height: 1; }
+.contact-details { margin: 32px 0 0; display: grid; gap: 20px; }
+.contact-details dt { font-size: 14px; color: #93a8c2; }
+.contact-details dd { margin: 2px 0 0; font-size: 20px; font-weight: 500; color: var(--white); overflow-wrap: anywhere; }
+.contact-details dd a { color: var(--white); text-decoration-color: var(--blue-light); text-decoration-thickness: 2px; }
+.contact-details dd a:hover { color: #a9cbf2; }
+.contact-details .pending { display: block; line-height: 1.5; font-size: 16px; font-weight: 400; color: var(--on-navy); }
+[data-contact-row][hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .cta-row { grid-template-columns: 1fr; align-items: start; }
+  .logo img { height: 32px; }
 }

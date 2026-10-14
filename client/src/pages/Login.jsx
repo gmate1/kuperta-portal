@@ -25,7 +25,8 @@ export default function Login() {
   return (
     <div className="login-wrap">
       <form className="card login" onSubmit={submit}>
-        <h1>Kuperta<span>portál</span></h1>
+        <h1 className="visually-hidden">Kuperta portál</h1>
+        <img className="login-logo" src="/logo.png" alt="Kuperta – Az összetett pénzügy!" width="1288" height="238" />
         <p className="muted">Belső ügyviteli rendszer munkatársaknak</p>
         <label>
           Email

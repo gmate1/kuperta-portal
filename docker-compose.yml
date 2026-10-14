@@ -35,6 +35,9 @@ services:
       COOKIE_SECURE: auto
       SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@kuperta.hu}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+      COMPANY_EMAIL: ${COMPANY_EMAIL:-}
+      COMPANY_PHONE: ${COMPANY_PHONE:-}
+      COMPANY_ADDRESS: ${COMPANY_ADDRESS:-}
 
   web:
     build:

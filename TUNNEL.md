@@ -73,6 +73,7 @@ Töltsd ki (kulcsgenerálás PowerShellben, kétszer futtasd, két külön kulcs
 - `JWT_SECRET` és `DATA_ENCRYPTION_KEY` – a fenti paranccsal generált két érték
 - `SEED_ADMIN_PASSWORD` – az első belépéshez (min. 12 karakter, kis- és nagybetű, szám)
 - `TUNNEL_TOKEN` – a 3. lépésben kimásolt token
+- `COMPANY_EMAIL` – a cég email címe a Kapcsolat oldalra (ha még nincs meg, hagyd üresen)
 
 Majd:
 

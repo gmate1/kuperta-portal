@@ -4,13 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Adatkezelési tájékoztató – Kuperta</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="/img/mark-192.png">
+  <meta name="theme-color" content="#142f4c">
   <link rel="stylesheet" href="/style.css">
+  <script src="/main.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-row">
-      <a href="/" class="wordmark">Kuperta</a>
-      <nav aria-label="Fő navigáció"><a href="/#kapcsolat" class="nav-cta">Időpontot kérek</a></nav>
+      <a href="/" class="logo"><img src="/img/logo-head.png" width="644" height="100" alt="Kuperta – főoldal"></a>
+      <nav aria-label="Fő navigáció">
+        <a href="/#szolgaltatasok">Szolgáltatások</a>
+        <a href="/#folyamat">Hogyan dolgozunk</a>
+        <a href="/kapcsolat.html" class="nav-cta">Kapcsolat</a>
+      </nav>
     </div>
   </header>
 
@@ -20,7 +28,7 @@
     <p><span class="todo">Kitöltendő: a sárgával jelölt adatokat élesítés előtt a cég valós adataira kell cserélni.</span></p>
 
     <h2>Az adatkezelő</h2>
-    <p><span class="todo">[Cégnév]</span>, székhely: <span class="todo">[cím]</span>, cégjegyzékszám: <span class="todo">[szám]</span>, email: info@kuperta.hu.</p>
+    <p><span class="todo">[Cégnév]</span>, székhely: <span class="todo">[cím]</span>, cégjegyzékszám: <span class="todo">[szám]</span>, email: <span class="todo" data-contact="email">[email cím]</span>.</p>
 
     <h2>Milyen adatokat kezelünk</h2>
     <p>Nevét, cégnevét, email címét, telefonszámát (ha megadja), a megkeresés témáját és üzenetét, valamint a küldés idejét és az IP-címet, amelyet a visszaélések kiszűrésére használunk.</p>
@@ -35,13 +43,16 @@
     <p>Az adatok titkosított (HTTPS) kapcsolaton érkeznek, és csak a bejelentkezett munkatársak érik el a belső rendszerben. Az érzékeny ügyféladatokat titkosítva tároljuk, a hozzáféréseket naplózzuk.</p>
 
     <h2>Az Ön jogai</h2>
-    <p>Kérheti az adatai megismerését, helyesbítését, törlését, kezelésének korlátozását, és bármikor visszavonhatja a hozzájárulását az info@kuperta.hu címen. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH, naih.hu) fordulhat.</p>
+    <p>Kérheti az adatai megismerését, helyesbítését, törlését, kezelésének korlátozását, és bármikor visszavonhatja a hozzájárulását a <a href="/kapcsolat.html">Kapcsolat</a> oldalon megadott elérhetőségeken. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH, naih.hu) fordulhat.</p>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-row">
-      <span class="wordmark small">Kuperta</span>
-      <a href="/">Főoldal</a>
+      <a href="/" class="logo"><img src="/img/logo.png" width="1288" height="238" alt="Kuperta – Az összetett pénzügy!"></a>
+      <a href="/kapcsolat.html">Kapcsolat</a>
+      <a href="/adatvedelem.html">Adatkezelési tájékoztató</a>
+      <a href="https://portal.kuperta.hu" id="portal-link">Belépés munkatársaknak</a>
+      <span class="note">Szakmai gyakorlati projekt bemutató környezete.</span>
     </div>
   </footer>
 </body>

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { query, withTransaction } from '../db.js';
 import { asyncHandler, validate, HttpError } from '../middleware/index.js';
 import { audit } from '../utils/audit.js';
+import { config } from '../config.js';
 
 export const TOPICS = ['cashflow', 'tax', 'business_plan', 'grant', 'loan', 'other'];
 
@@ -57,6 +58,16 @@ publicRouter.get(
     res.set('Cache-Control', 'public, max-age=300').json(rows);
   }),
 );
+
+// Céges elérhetőségek a Kapcsolat oldalhoz – a .env-ből, így kódmódosítás nélkül cserélhető
+publicRouter.get('/contact', (req, res) => {
+  const { email, phone, address } = config.company;
+  res.set('Cache-Control', 'public, max-age=300').json({
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null,
+    phone: phone || null,
+    address: address || null,
+  });
+});
 
 // ─── Belső végpontok (portál) ──────────────────────────────────────────────
 const router = Router();

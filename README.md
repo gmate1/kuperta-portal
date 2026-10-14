@@ -17,7 +17,7 @@ Látogató ─HTTPS─▶ Cloudflare ◀═tunnel═ cloudflared ─▶ [web: ng
                                                                         └─ /api/*                → [api: Express] ─▶ [db: PostgreSQL]
 ```
 
-- **A nyilvános oldal felől csak két végpont érhető el** (űrlap beküldés, árlista); minden más `/api`
+- **A nyilvános oldal felől csak három végpont érhető el** (űrlap beküldés, árlista, céges elérhetőségek); minden más `/api`
   hívás 404. A portál teljes API-ja csak a portal aldomainen át szólítható meg.
 - A portál és az API **azonos originről** szolgálódik ki → a JWT `httpOnly; SameSite=Strict`
   sütiben utazik, nincs localStorage-ban tárolt token.
@@ -38,7 +38,7 @@ server/
   tests/           unit tesztek (node:test)
 client/
   src/pages/       Login, Dashboard, Inquiries, Clients, Quotes, QuoteEditor, Expenses
-site/              nyilvános weboldal (HTML/CSS/JS, keretrendszer nélkül, saját hostolású betűk)
+site/              nyilvános weboldal: főoldal, kapcsolat, adatkezelés (HTML/CSS/JS, keretrendszer nélkül)
 web/               nginx konfiguráció és a web konténer Dockerfile-ja
 TUNNEL.md          futtatás a saját gépről, kuperta.hu-n
 ```
@@ -109,6 +109,7 @@ A tunnel miatt a VPS-en sem kell 80/443 portot nyitni.
 | POST | `/api/inquiries/:id/convert` | Érdeklődőből ügyfél (tranzakcióban) |
 | POST | `/api/public/inquiries` | **Nyilvános:** kapcsolat űrlap (5 / óra / IP, honeypot) |
 | GET | `/api/public/services` | **Nyilvános:** árlista a weboldalnak |
+| GET | `/api/public/contact` | **Nyilvános:** céges email / telefon / cím a `.env`-ből |
 
 ### Árajánlat státuszok
 
@@ -135,13 +136,23 @@ Csak `draft` állapotban szerkeszthető / törölhető. Az összegeket mindig a 
 | Számítási manipuláció | Az összegeket a szerver számolja, fillér-pontos egész aritmetikával |
 | Jogosultság | Szerepkörök (`admin`, `consultant`); érzékeny műveletek csak adminnak |
 | Lehallgatás | HTTPS a Cloudflare-en, `Secure` süti HTTPS kérésnél (automatikusan) |
-| Támadási felület | Nyilvános domainen csak 2 API végpont; nincs nyitott port a routeren (kimenő tunnel); a géped IP-je rejtve |
+| Támadási felület | Nyilvános domainen csak 3 API végpont; nincs nyitott port a routeren (kimenő tunnel); a géped IP-je rejtve |
 | Spam / bot az űrlapon | Honeypot mező, IP-nkénti rate limit, szerveroldali validáció, kötelező adatkezelési hozzájárulás |
 | Kattintás-eltérítés, injektált script | Szigorú CSP (`script-src 'self'`, inline script nincs), `X-Frame-Options: DENY` |
 | Valódi kliens IP proxy mögött | `CF-Connecting-IP` csak a belső Docker hálózatról elfogadva (nginx realip) |
 | Utólagos elszámoltathatóság | `audit_log` tábla: belépés, módosítás, törlés, érzékeny adat megtekintése |
 | DoS | Payload méretkorlát (200 kB), rate limit |
 | Konténer kitörés | API nem root felhasználóként fut; DB nincs kiengedve |
+
+## Arculat és elérhetőségek
+
+- A színek a cég logójából jönnek: világoskék `#6B9CD6`, sötétkék `#3173AD`, a feliratok feketéje, a sötét
+  szekciókhoz mélykék `#142F4C`. A logó átlátszó változatai a `site/img/` mappában vannak
+  (`logo.png` szlogennel, `logo-head.png` fejléchez, `-light` változat sötét háttérre).
+- A **Kapcsolat** oldal (`site/kapcsolat.html`) az email címet, telefont és címet a `.env`
+  `COMPANY_EMAIL`, `COMPANY_PHONE`, `COMPANY_ADDRESS` változóiból mutatja – kódot nem kell módosítani.
+  Üresen hagyva az oldal azt írja, hogy az email cím hamarosan elérhető, és az űrlapra irányít.
+  Módosítás után: `docker compose up -d api`.
 
 ## Adatvédelem
 

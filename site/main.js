@@ -457,6 +457,8 @@ function setupMenu(header) {
 // látszik, azt nem rejtjük el, így nincs villanás.
 const REVEAL_GROUPS = [
   '.audience > h2, .audience-list > div',
+  '.pillars > .pillar',
+  '.stats > li',
   '.section-head > *',
   '.price-list tbody tr',
   '.process > h2, .steps > li',
@@ -489,7 +491,44 @@ function setupReveal() {
   }
 }
 
+// ─── Számláló: 0-ról fut fel, amikor a látóterbe ér ────────────────────────
+function setupCounters() {
+  const nodes = document.querySelectorAll('.count[data-to]');
+  if (!nodes.length || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  const run = (el) => {
+    const to = Number(el.dataset.to);
+    const dur = 1400;
+    const t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = String(Math.round(to * (1 - (1 - k) ** 3)));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+  }, { threshold: 0.6 });
+  nodes.forEach((el) => { el.textContent = '0'; io.observe(el); });
+}
+
+// ─── Vissza a tetejére gomb ───────────────────────────────────────────────
+function setupToTop() {
+  const btn = document.querySelector('.to-top');
+  if (!btn) return;
+  const onScroll = () => { btn.hidden = window.scrollY < window.innerHeight * 1.2; };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    document.querySelector('.logo')?.focus({ preventScroll: true });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  setupCounters();
+  setupToTop();
   setupReveal();
   const svg = document.getElementById('cashflow');
   if (svg) drawCashflow(svg);

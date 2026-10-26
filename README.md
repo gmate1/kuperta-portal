@@ -156,6 +156,15 @@ Csak `draft` állapotban szerkeszthető / törölhető. Az összegeket mindig a 
   betöltéskor már látszik, azt nem rejti el.
 - Minden animáció kikapcsol, ha a látogató rendszerében a „kevesebb mozgás” be van állítva.
 
+- **Szakterületek** kártyákon (öt pillér, mindegyik a Kapcsolat űrlapra visz előválasztott témával),
+  **animált számláló-sáv** a hero alatt, **„vissza a tetejére” gomb**, MNB fogyasztóvédelmi linkek a láblécben.
+- **Kuperta asszisztens** (`site/chat.js`, `site/chat.css`): szabályalapú chat, külső szolgáltatás és AI nélkül.
+  Kulcsszavak alapján válaszol (árak élőben a katalógusból, első beszélgetés, szakterületek, előkészítés,
+  adatbiztonság, elérhetőség), és kérésre lépésenként felveszi a látogató adatait – ez a meglévő
+  `/api/public/inquiries` végponton érkezik, a portál *Érdeklődések* oldalán `[Chat]` előtaggal jelenik meg.
+  A beszélgetés a böngészőfül bezárásáig megmarad (sessionStorage). **Kikapcsolás:** a négy HTML oldalból
+  a `chat.css` és `chat.js` sor törlése.
+
 ## Arculat és elérhetőségek
 
 - A színek a cég logójából jönnek: világoskék `#6B9CD6`, sötétkék `#3173AD`, a feliratok feketéje, a sötét

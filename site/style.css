@@ -370,3 +370,53 @@ input[type=range]:focus-visible::-moz-range-thumb { outline: 3px solid var(--blu
   .reveal { opacity: 1; transform: none; transition: none; }
   .site-header #main-nav { transition: none !important; }
 }
+
+/* ── Turbo: számláló-sáv ─────────────────────────────────────────────── */
+.stats { grid-template-columns: repeat(4, 1fr); }
+.stats strong { font-size: clamp(28px, 3vw, 38px); letter-spacing: -0.03em; line-height: 1.1; }
+.stats .count { color: var(--blue); font-size: inherit; font-variant-numeric: tabular-nums; }
+.stats span:not(.count) { margin-top: 4px; }
+
+/* ── Turbo: szakterületek ────────────────────────────────────────────── */
+.pillars-band { padding-block: clamp(56px, 7vw, 96px); border-top: 1px solid var(--rule); }
+.pillars { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+.pillar { grid-column: span 2; position: relative; display: flex; flex-direction: column; gap: 10px;
+  background: var(--white); border: 1px solid var(--rule); border-radius: 10px; padding: 26px 24px 22px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.pillar:nth-child(4) { grid-column: 2 / span 2; }
+.pillar:hover { transform: translateY(-4px); border-color: var(--blue-light);
+  box-shadow: 0 18px 36px -24px rgba(20, 47, 76, 0.45); }
+.pillar-icon { width: 40px; height: 40px; fill: none; stroke: var(--blue); stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round; margin-bottom: 4px; }
+.pillar-icon circle { fill: none; }
+.pillar h3 { font-size: 21px; }
+.pillar-tag { font-weight: 500; color: var(--ink); }
+.pillar p:not(.pillar-tag) { color: var(--ink-soft); font-size: 16px; }
+.pillar-link { margin-top: auto; padding-top: 8px; font-weight: 500; text-decoration: none; }
+.pillar-link::after { content: ''; position: absolute; inset: 0; border-radius: 10px; } /* az egész kártya kattintható */
+.pillar:focus-within { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+.pillar-link:focus-visible { outline: none; }
+
+/* ── Turbo: lábléc fogyasztóvédelem + vissza a tetejére ─────────────── */
+.consumer-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 10px; font-size: 14px; color: var(--ink-soft); }
+.to-top { position: fixed; left: 20px; bottom: 20px; z-index: 30; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--white); border: 1px solid var(--rule);
+  box-shadow: 0 8px 20px -10px rgba(20, 47, 76, 0.45); transition: opacity .25s ease, transform .25s ease; }
+.to-top[hidden] { display: grid; opacity: 0; pointer-events: none; transform: translateY(10px); }
+.to-top svg { width: 20px; height: 20px; fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.to-top:hover { border-color: var(--blue); }
+
+@media (max-width: 900px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .pillar, .pillar:nth-child(4) { grid-column: auto; }
+  .pillar:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+  .pillars { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pillar, .to-top { transition: none; }
+  .pillar:hover { transform: none; }
+}
